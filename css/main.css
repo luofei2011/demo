@@ -1,0 +1,141 @@
+/*重置样式*/
+body, input {
+	font: 13px/1.7  'Helvetica Neue',Helvetica,Arial,Sans-serif;
+    padding: 0;
+    margin: 0;
+    color: #222;
+    word-wrap: break-word;
+}
+
+a {
+    color: #259;
+	text-decoration:none;
+	outline: none;
+}
+
+ul { 
+    list-style: none; 
+    margin: 0;
+    padding: 0;
+}
+
+a:active {star:expression_r(this.onFocus=this.blur());}
+a:focus { outline:0; }
+a:hover { text-decoration: underline; }
+:focus { outline: none; }
+:link, :visited, ins { text-decoration: none; }
+.clearfix { zoom: 1; }
+.clearfix:after { clear: both; }
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+h3 {
+    font-weight: 700;
+    font-size: 16px;
+    outline: 0;
+    margin: 0;
+}
+img { border: 0; border-radius: 3px; }
+
+/*主体样式*/
+.wrapper {
+    width: 960px;
+    margin: 0 auto;
+}
+
+.invite-body {
+    width: 600px;
+    margin: 30px auto;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.1) inset;
+    -moz-box-shadow: 0 1px 1px rgba(0,0,0,.1) inset;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.1) inset;
+}
+
+.search-box input {
+    padding: 8px 10px;
+    width: 130px;
+    line-height: 15px;
+    color: #777;
+    border: 1px solid #ccc;
+    box-shadow: 0 1px 1px rgba(0,0,0,.1) inset;
+    -moz-box-shadow: 0 1px 1px rgba(0,0,0,.1) inset;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.1) inset;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+.invite-status {
+    color: #999;
+    margin-left: 6px;
+}
+
+.person-list a {
+    color: #555;
+}
+
+.person-list a:hover {
+    color: #259;
+}
+
+.invite-body h3 {
+    padding-top: 12px;
+    margin: 12px 0 10px;
+    border-top: 1px dotted #eee;
+}
+
+.person {
+    float: left;
+    width: 50%;
+    height: 65px;
+    margin: 0 0 10px;
+    overflow: hidden;
+}
+
+a.photo {
+    float: left;
+    margin-right: 12px;
+}
+
+a.photo img {
+    width: 36px;
+    height: 36px;
+}
+
+.send-invite, .remove-invite {
+    float: right;
+    color: #fff;
+    padding: 1px 5px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 18px;
+    border-radius: 3px;
+}
+
+.odd button {
+    margin-right: 10px;
+}
+
+.bio {
+    color: #222;
+    word-wrap: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.send-invite {
+    background-color: #0048cc;
+    border: 1px solid #0048cc;
+    box-shadow: 0 1px 0 #0048cc inset;
+}
+
+.remove-invite {
+    background-color: #2a2a2a;
+    border: 1px solid #2a2a2a;
+    box-shadow: 0 1px 0 #2a2a2a inset;
+}
