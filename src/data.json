@@ -1,0 +1,58 @@
+{
+  "comment": "http://octodex.github.com/",
+  "invited": [
+    {
+      "fullName": "the Mardigrastocat",
+      "urlToken": "mardigrastocat",
+      "avatarPath": "http://octodex.github.com/images/Mardigrastocat.png",
+      "bio": "Octodex",
+      "id": 1
+    },
+    {
+      "fullName": "the Kimonotocat",
+      "urlToken": "kimonotocat",
+      "avatarPath": "http://octodex.github.com/images/kimonotocat.png",
+      "bio": "Octodex",
+      "id": 2
+    },
+    {
+      "fullName": "the Skitchtocat",
+      "urlToken": "skitchtocat",
+      "avatarPath": "http://octodex.github.com/images/skitchtocat.png",
+      "bio": "Octodex",
+      "id": 3
+    }
+  ],
+  "recommended": [
+    {
+      "fullName": "the Droidtocat",
+      "urlToken": "droidtocat",
+      "avatarPath": "http://octodex.github.com/images/droidtocat.png",
+      "bio": "Octodex",
+      "id": 4
+    },
+    {
+      "fullName": "the Goretocat",
+      "urlToken": "goretocat",
+      "avatarPath": "http://octodex.github.com/images/goretocat.png",
+      "bio": "Octodex",
+      "id": 5
+    },
+    {
+      "fullName": "the FIRSTocat",
+      "urlToken": "firstocat",
+      "avatarPath": "http://octodex.github.com/images/FIRSTocat.png",
+      "bio": "Octodex",
+      "id": 6
+    },
+    {
+      "fullName": "the Professortocat",
+      "urlToken": "professortocat",
+      "avatarPath": "http://octodex.github.com/images/Professortocat_v2.png",
+      "bio": "Octodex",
+      "id": 7
+    }
+  ],
+  "template1": "<li class='person odd'><div class='person-message'><a href='%s' class='photo'><img src='%s'></a><div class='content'><button class='send-invite'>邀请回答</button><a href='%s'>%s</a><div class='bio'>%s</div></div></div></li>",
+  "template2": "<li><a href='%s' class='first'><img src='%s'></a><a href='%s'>%s</a><a href='javascript:;' class='right'>收回邀请</a></li>"
+}

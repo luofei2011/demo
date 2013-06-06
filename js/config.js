@@ -1,13 +1,20 @@
+/*
+ * 自定义的全局函数--通过元素及其类名快速定位到所找元素
+ * @param {string} str "tagName.className"结构
+ * @return {Array} result 返回匹配的所有dom元素， 没有则返回空数组
+*/
 var getElementByClassName = function( str ) {
-	var elem = str.slice(0, str.indexOf('.')) || '',
+	var elem = str.slice(0, str.indexOf('.')) || '',  // 通过传递的参数得到元素名和对应的类名
 		className = str.slice(str.indexOf('.')+1, str.length),
 		result = [],
 		i = 0;
 		
-	var all = (elem === '') ? document.getElementsByTagName('*') : document.getElementsByTagName(elem);
+	var all = (elem === '') ? document.getElementsByTagName('*') : document.getElementsByTagName(elem); // 兼容没有传递结点名的情况
 	
+	// 通过类名匹配正确的dom结点，支持含有多个类名的查找
+	var reg = new RegExp("\\b" + className + "\\b", 'g'); // 通用的匹配出所找类名正则表达式
 	for ( ; i < all.length; i++ ) {
-		if ( all[i].className === className ) {
+		if ( reg.test(all[i].className) ) {
 			result.push(all[i]);
 		}
 	}
@@ -15,69 +22,12 @@ var getElementByClassName = function( str ) {
 	return result;
 }
 
-var data = {
-  "comment": "http://octodex.github.com/",
-  "invited": [
-    {
-      "fullName": "the Mardigrastocat",
-      "urlToken": "mardigrastocat",
-      "avatarPath": "http://octodex.github.com/images/Mardigrastocat.png",
-      "bio": "Octodex",
-      "id": 1
-    },
-    {
-      "fullName": "the Kimonotocat",
-      "urlToken": "kimonotocat",
-      "avatarPath": "http://octodex.github.com/images/kimonotocat.png",
-      "bio": "Octodex",
-      "id": 2
-    },
-    {
-      "fullName": "the Skitchtocat",
-      "urlToken": "skitchtocat",
-      "avatarPath": "http://octodex.github.com/images/skitchtocat.png",
-      "bio": "Octodex",
-      "id": 3
-    }
-  ],
-  "recommended": [
-    {
-      "fullName": "the Droidtocat",
-      "urlToken": "droidtocat",
-      "avatarPath": "http://octodex.github.com/images/droidtocat.png",
-      "bio": "Octodex",
-      "id": 4
-    },
-    {
-      "fullName": "the Goretocat",
-      "urlToken": "goretocat",
-      "avatarPath": "http://octodex.github.com/images/goretocat.png",
-      "bio": "Octodex",
-      "id": 5
-    },
-    {
-      "fullName": "the FIRSTocat",
-      "urlToken": "firstocat",
-      "avatarPath": "http://octodex.github.com/images/FIRSTocat.png",
-      "bio": "Octodex",
-      "id": 6
-    },
-    {
-      "fullName": "the Professortocat",
-      "urlToken": "professortocat",
-      "avatarPath": "http://octodex.github.com/images/Professortocat_v2.png",
-      "bio": "Octodex",
-      "id": 7
-    }
-  ]
-};
-
 /*
  * 想了一下, 如果推荐部分的DOM元素全部都动态生成的话效率个人感觉比较低, 尽量减少
  * 操作DOM还是比较好的, 因此我想用一共简单的模板来实现这种动态替换的功能.
  *
  * @param {Object} options 替换参数
- * @return {string} str 替换过后的带有数据的html文档
+ * @return {string} 替换过后的带有数据的html文档
  * */
 function sprintf( options ) {
 
@@ -96,14 +46,16 @@ function sprintf( options ) {
         pItem = args[pNum],
 		max_value = options.max_value;	
 		
-    return options.src.replace(/(<!--)|(-->)/g,'')
-                .replace(/%s/g, function() {
-
+    return options.src.replace(/%s/g, function() {
+	
+			// 从1-max_value计数，一个来回匹配完一项
            if ( pItemNum > max_value ) {
                pItemNum = 1;
                pNum += 1;
                pItem = args[pNum];
            }
+		   
+		   // 进行替换
            switch( pItemNum ) {
                case 1:
                    pItemNum += 1;
@@ -126,23 +78,13 @@ function sprintf( options ) {
     });
 }
 
-// 初始化已经邀请的人
-var invitedArr = [];
-(function() {
-    if ( data['invited'].length ) {
-        var invited = data['invited'];
-
-        // 初始化已经邀请的人的个数
-        for ( var i in invited ) {
-            invitedArr.push(invited[i]);
-        }
-    }
-
-})();
-
-// 动态改变邀请人数的状态栏
+/*
+ * 动态改变邀请人数的状态栏
+ * @param {string} pName 根据用户名从data['recomended']信息中找出其所有信息，可选
+ * @return {string} 动态生成的dom元素
+ */
 function changeInvitedStatus( pName ) {
-    var oInsert = "";
+    var oInsert = ""; // 根据已经邀请的人动态生成邀请状态栏的dom信息
 
     // 根据人名找到其所有的信息
     if ( typeof pName !== 'undefined' ) {
@@ -152,18 +94,21 @@ function changeInvitedStatus( pName ) {
             }
         }
     }
-	//console.log(invitedArr);
+
+	// 在存在邀请人的前提下生成dom元素
 	if ( invitedArr.length ) {
 		oInsert += "您已邀请 <span class='person-list'>" +
                "<a href='" + data['comment'] + invitedArr[invitedArr.length -1]['urlToken'] + "'>" + invitedArr[invitedArr.length - 1]['fullName'] + "</a>" +
 			   // 下拉菜单显示已经被邀请的人
 			   "<div class='invited-people' id='drop_invite'>" +
 			   "</div>";
-                   
+        
+		// 存在两个或两个以上的邀请人时，只显示两个人
 		if ( invitedArr.length > 1 ) {
 			oInsert += " , " +
                    "<a href='" + data['comment'] + invitedArr[invitedArr.length -2]['urlToken'] + "'>" + invitedArr[invitedArr.length - 2]['fullName'] + "</a></span>";
-				   
+			
+			// 存在三个及以上的人数时显示后面的“等...人“字样
 			if ( invitedArr.length > 2 ) {
 				oInsert += " 等" + invitedArr.length + "人";
 			}
@@ -173,43 +118,64 @@ function changeInvitedStatus( pName ) {
     return oInsert;
 }
 
-// 动态绑定事件
+// 每次都需要为邀请栏中出现的人名绑定mouseover & mouseout事件
 function addEvent() {
 
-	// 每次动态生成邀请人的时候都给span.person-list绑定mouseover & mouseout事件
-	var oDrop = document.querySelector('.person-list');
+	var oDrop = getElementByClassName('span.person-list')[0];
     var oTarget = document.getElementById('drop_invite');
-	var innerValue = "<li><a href='%s' class='first'><img src='%s'></a>" +
-				   "<a href='%s'>%s</a><a href='javascript:;' class='right'>收回邀请</a></li>";
+	var innerValue = data['template2'];
 	var invitedNum = "";
-	var inviteStatus = document.getElementById('status');
-	//oDrop.appendChild(oTarget);
 	
-	// 为下拉菜单模版填充数据
-	for ( var i = 0; i < invitedArr.length; i++ ) {
-		invitedNum += innerValue;
+	// 为下拉菜单模版填充数据, 避免在空邀请的时候抛出错误
+	if ( oTarget !== null ) {
+		for ( var i = 0; i < invitedArr.length; i++ ) {
+			invitedNum += innerValue;
+		}
+		invitedNum = sprintf({
+			src: invitedNum,
+			target: invitedArr,
+			max_value: 4
+		});
+	
+		oTarget.innerHTML = "<b class='icon'></b><b class='icon down'></b><ul>" + invitedNum + "</ul>";
+		
+		// 每次动态生成邀请人的时候都给span.person-list绑定mouseover & mouseout事件
+		oDrop.onmouseover = function() {
+			var left = getElementByClassName('span.person-list')[0].firstChild.offsetWidth;
+			oTarget.firstChild.style.left = left + "px";
+			oTarget.firstChild.nextSibling.style.left = left + "px";
+		
+			oTarget.style.display = "block";
+		};
+	
+		oDrop.onmouseout = function() {
+			oTarget.style.display = "none";
+		};
+		
+		addClickEvent();
 	}
-	invitedNum = sprintf({
-		src: invitedNum,
-		target: invitedArr,
-		max_value: 4
-	});
+}
+
+// 动态为下拉菜单的每个"收回邀请"按钮绑定事件, 添加的地点：每次动态生成邀请栏信息以后
+function addClickEvent() {
 	
-	oTarget.innerHTML = "<b class='icon'></b><b class='icon down'></b><ul>" + invitedNum + "</ul>";
-	
-	// 为下拉菜单的每个收回邀请按钮绑定事件
+	var inviteStatus = document.getElementById('status');
 	var oA = getElementByClassName('a.right');
 	var oa_len = oA.length;
 	
 	for ( i = 0; i < oa_len; i++ ) {
 		oA[i].onclick = function() {
-			removeInvited(this.previousSibling.innerHTML);
+		    var oHtml = this.previousSibling.innerHTML;  // 这个错误比较特别，在这里正常得到正确值，在下一步if判断的时候却出错。所以先缓存下来
+			console.log(oHtml);
+			removeInvited(oHtml);
 			inviteStatus.innerHTML = changeInvitedStatus();
 			
 			// 改变邀请按钮的状态
-			var oBtn = getElementByClassName('button.remove-invite');
-			for ( var i = 0; i < oBtn.length; i++ ) {
-				if ( oBtn[i].nextSibling.nextSibling.innerHTML === this.previousSibling.innerHTML ) {
+			var oBtn = document.getElementsByTagName('button');//getElementByClassName('button.remove-invite');
+			console.log(oBtn);
+			for ( var i = 0; i < oBtn.length; i++ ) {	
+				console.log(oBtn[i].nextSibling.innerHTML);
+				if ( oBtn[i].nextSibling.innerHTML === oHtml ) {
 					oBtn[i].className = "send-invite";
 					oBtn[i].innerHTML = "邀请回答";
 				}
@@ -217,18 +183,6 @@ function addEvent() {
 			addEvent();
 		}
 	}
-	
-	oDrop.onmouseover = function() {
-		var left = getElementByClassName('span.person-list')[0].firstChild.offsetWidth;
-		oTarget.firstChild.style.left = left + "px";
-		oTarget.firstChild.nextSibling.style.left = left + "px";
-		
-		oTarget.style.display = "block";
-	};
-	
-	oDrop.onmouseout = function() {
-		oTarget.style.display = "none";
-	};
 }
 
 // 找到删除元素在数组中的索引位置
@@ -249,7 +203,7 @@ window.onload = function() {
         oBtn = oUl.getElementsByTagName('button'),
         inviteStatus = doc.getElementById('status'),
 		oInput = doc.getElementById('search-username'),
-        oldHtml = oUl.innerHTML;
+        oldHtml = data['template1'];
 	
 	// 兼容ie的placeholder写法
 	oInput.value = "搜素你想邀请的人";
@@ -267,34 +221,29 @@ window.onload = function() {
 	// 根据html模板动态生成4个推荐信息
     oldHtml += oldHtml.replace(/odd/g, 'even');
 	oldHtml += oldHtml;
-	//console.log(oldHtml);
     newHtml = sprintf( {
 		src: oldHtml,
 		target: data['recommended'],
 		max_value: 5
 	} );
-
     // 加载替换过后的值
     oUl.innerHTML = newHtml;
 	
+	// 初始化邀请栏信息
 	inviteStatus.innerHTML = changeInvitedStatus();
 	addEvent();
 	
-	// 给邀请状态栏绑定显示已经被邀请的人列表的事件
-	var dropdownList = doc.querySelector('.person-list');
-	//console.log(dropdownList);
-//console.log(getElementByClassName('a.right'));
     // 为邀请按钮绑定事件
     for ( i = 0; i < oBtn.length; i++ ) {
         oBtn[i].onclick = function() {
             if ( this.innerHTML === '邀请回答' ) {
                 this.className = 'remove-invite';
                 this.innerHTML = '收回邀请';
-                inviteStatus.innerHTML = changeInvitedStatus(this.nextSibling.nextSibling.innerHTML);
+                inviteStatus.innerHTML = changeInvitedStatus(this.nextSibling.innerHTML);
             } else {
                 this.className = 'send-invite';
                 this.innerHTML = '邀请回答';
-                removeInvited( this.nextSibling.nextSibling.innerHTML );
+                removeInvited( this.nextSibling.innerHTML );
                 inviteStatus.innerHTML = changeInvitedStatus();
             }
 			addEvent();
