@@ -33,7 +33,13 @@ h3 {
     outline: 0;
     margin: 0;
 }
-img { border: 0; border-radius: 3px; }
+img { 
+	border: 0; 
+	border-radius: 3px; 
+	width: 36px;
+    height: 36px;
+	vertical-align: middle;
+}
 
 /*主体样式*/
 .wrapper {
@@ -82,11 +88,16 @@ img { border: 0; border-radius: 3px; }
     margin-left: 6px;
 }
 
-.person-list a {
+.person-list {
+	position: relative;
+	display: inline-block;	/*ie/firefox 下选取目标的bug*/
+}
+
+.person-list a, .invited-people a {
     color: #555;
 }
 
-.person-list a:hover {
+.person-list a:hover, .invited-people a:hover {
     color: #259;
 }
 
@@ -107,11 +118,6 @@ img { border: 0; border-radius: 3px; }
 a.photo {
     float: left;
     margin-right: 12px;
-}
-
-a.photo img {
-    width: 36px;
-    height: 36px;
 }
 
 .send-invite, .remove-invite {
@@ -147,4 +153,45 @@ a.photo img {
     background-color: #2a2a2a;
     border: 1px solid #2a2a2a;
     box-shadow: 0 1px 0 #2a2a2a inset;
+}
+
+.right {
+	float: right;
+	margin-right: 10px;
+}
+
+.first {
+	margin-left: 10px;
+}
+
+.invited-people {
+	position: absolute;
+	background: #fff;
+	padding-top: 8px;
+	width: 230px;
+	line-height: 36px;
+	border-radius: 3px;
+	display: none;
+	top: 17px;
+}
+
+.invited-people ul {
+	border: 1px solid #ddd;
+}
+
+.icon {
+	position: absolute;
+	top: 3px;
+	border-left:6px dashed transparent;
+	border-right:6px dashed transparent;
+	border-bottom:6px solid #ddd;
+	width:0;
+	height:0;
+	font-size:0; /*for IE6*/
+	line-height: 0; /*hack处理*/
+}
+
+.down {
+	top: 4px;
+	border-bottom:6px solid #fff;
 }
