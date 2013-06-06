@@ -183,7 +183,7 @@ window.onload = function() {
 	
 	// 给邀请状态栏绑定显示已经被邀请的人列表的事件
 	var dropdownList = doc.querySelector('.person-list');
-	console.log(dropdownList);
+	//console.log(dropdownList);
 
     // 为邀请按钮绑定事件
     for ( i = 0; i < oBtn.length; i++ ) {

@@ -68,6 +68,15 @@ img { border: 0; border-radius: 3px; }
     -webkit-border-radius: 3px;
 }
 
+.search-box input:focus {
+	vertical-align: middle\9; /*解决ie下input获取焦点后出现的跳动问题*/
+	/*
+	vertical-align: middle\0; //ie8
+	+vertical-align: middle;  // ie7
+	_vertical-align: middle;  // ie6
+	*/
+}
+
 .invite-status {
     color: #999;
     margin-left: 6px;
