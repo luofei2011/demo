@@ -209,7 +209,6 @@ function addEvent() {
 			// 改变邀请按钮的状态
 			var oBtn = getElementByClassName('button.remove-invite');
 			for ( var i = 0; i < oBtn.length; i++ ) {
-			alert(this.previousSibling.innerHTML);
 				if ( oBtn[i].nextSibling.nextSibling.innerHTML === this.previousSibling.innerHTML ) {
 					oBtn[i].className = "send-invite";
 					oBtn[i].innerHTML = "邀请回答";
