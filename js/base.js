@@ -184,7 +184,7 @@ var $lf = {
 
 		// 在存在邀请人的前提下生成dom元素
 		if ( $lf.invitedArr.length ) {
-			oInsert += "您已邀请 <span class='person-list'>" +
+			oInsert += "您已邀请 <span class='person-list' id='person_list'>" +
 				   "<a href='" + data['comment'] + $lf.invitedArr[$lf.invitedArr.length -1]['urlToken'] + "'>" + $lf.invitedArr[$lf.invitedArr.length - 1]['fullName'] + "</a>" +
 				   // 下拉菜单显示已经被邀请的人
 				   "<div class='invited-people' id='drop_invite'>" +
@@ -206,12 +206,133 @@ var $lf = {
 	},
 	
 	/**
+	 * @method getDefaultStyle 返回dom元素的指定样式， 兼容ie
+	 * */
+	getDefaultStyle: function( obj, attribute ){ 
+		return  obj.currentStyle ? obj.currentStyle[attribute] : document.defaultView.getComputedStyle(obj,false)[attribute];
+	},
+	
+	/**
+	 * @method contains 解决mouseover & mouseout的多次触发和子元素触发问题
+	 *
+	 * */
+	contains: function(parentNode, childNode) {
+        if (parentNode.contains) {
+			return parentNode != childNode && parentNode.
+                contains(childNode);
+		} else {
+          return !!(parentNode.compareDocumentPosition(
+                childNode) & 16);
+		}
+	},	
+	
+	/**
+	 * @method contains 解决mouseover & mouseout的多次触发和子元素触发问题
+	 *
+	 * */	
+	getEvent: function( e ){
+		return e||window.event;
+	},	
+	
+	/**
+	 * @method contains 解决mouseover & mouseout的多次触发和子元素触发问题
+	 *
+	 * */	
+	checkHover: function( e, target ){
+		if ( $lf.getEvent(e).type=="mouseover" )  {
+			return !$lf.contains(target,$lf.getEvent(e).
+                           relatedTarget || $lf.getEvent(e).
+                           fromElement) && !(($lf.getEvent(e).
+                           relatedTarget || $lf.getEvent(e).
+                           fromElement)===target);
+		} else {
+			return !$lf.contains(target, $lf.getEvent(e).
+                          relatedTarget|| $lf.getEvent(e).
+                          toElement) && !(($lf.getEvent(e).
+                          relatedTarget || $lf.getEvent(e).
+                          toElement)===target);
+		}
+	},	
+		
+	/**
+	 * @method slideUp 以滑动的方式显示某个元素
+	 * @param {object} elem 目标元素
+	 * @param {object} options 参数配置
+	 * */
+	slideUp: function( elem, options ) {
+		
+		/*
+		 * options = {
+		 * 		speed: {int} 滑动速度/px， 可选
+		 *		time: {int} 滑动频率, 可选
+		 * }
+		*/
+		// 获取元素的位置信息
+		//var mv_target = elem.offsetHeight - 9,//$lf.getDefaultStyle( elem, 'height' ),offsetHeight = height + padding + border,PS:并不完美，兼容性不够。
+		
+		// 不用上面一种方法的原因：在"操作速度"足够快的情况，本次移动并没有完成就被打断，导致div未达到指定位置。高度出现偏差
+		var oUl = $lf.getElementByClassName('ul.ul-list')[0],
+			mv_target = oUl.offsetHeight - 1,	// border: 1px
+			options = options || {},
+			_style = elem.style,
+			_speed = options.speed || 10,
+			_time = options.time || 15,	// ie下测试滑动速度太慢了。。。。甚是不解
+			oTimer, num = 1, // 定时器, 计数器
+			step = parseInt( mv_target / _speed ); // 需要移动的步数
+
+		elem.style.height = 0 + 'px';
+		oTimer = setTimeout(function() {
+			if ( num < step ) {
+				elem.style.height = num * _speed + 'px';
+				num += 1;
+				
+				// 重复执行
+				setTimeout( arguments.callee, _time );
+			} else {
+				elem.style.height = mv_target + 'px';
+				clearTimeout( oTimer );
+			}
+		}, _time);		
+	},
+	
+	/**
+	 * @method slideUp 以滑动的方式隐藏某个元素
+	 * @param {object} elem 目标元素
+	 * @param {object} options 参数配置
+	 * */
+	 slideDown: function( elem, options ) {
+	 
+		var mv_target = elem.offsetHeight - 9,
+			options = options || {},
+			_style = elem.style,
+			_speed = options.speed || 10,
+			_time = options.time || 15,
+			oTimer, // 定时器
+			step = parseInt( mv_target / _speed ); // 需要移动的步数
+
+		oTimer = setTimeout(function() {
+			if ( step > 0 ) {
+				elem.style.height = step * _speed + 'px';
+				step -= 1;
+				
+				// 重复执行
+				setTimeout( arguments.callee, _time );
+			} else {
+				elem.style.height = 0;
+				elem.style.display = 'none';
+				elem.style.height = mv_target + 'px';
+				clearTimeout( oTimer );
+			}
+		}, _time);
+	 },
+	
+	/**
 	 * @method addEvent 每次更新邀请人数的时候为邀请人数状态栏的人名绑定鼠标事件
 	 *
 	 * */
 	addEvent: function() {
 	
-		var oDrop = $lf.getElementByClassName('span.person-list')[0],// 已邀请人状态栏
+		var oDrop = document.getElementById('person_list'),// 已邀请人状态栏
 		    oTarget = document.getElementById('drop_invite'), // 展示邀请人数情况的下拉菜单
 			innerValue = data['template2'], // 下拉菜单填充模板，从服务器中动态获得到
 			invitedNum = ""; // 根据实际已邀请人数生成的dom模板
@@ -230,20 +351,28 @@ var $lf = {
 			});
 		
 			// 填充模板
-			oTarget.innerHTML = "<b class='icon'></b><b class='icon down'></b><ul>" + invitedNum + "</ul>";
+			oTarget.innerHTML = "<b class='icon'></b><b class='icon down'></b><ul class='ul-list'>" + invitedNum + "</ul>";
 			
 			// 每次动态生成邀请人的时候都给span.person-list绑定mouseover & mouseout事件
-			oDrop.onmouseover = function() {
-				var left = $lf.getElementByClassName('span.person-list')[0].firstChild.offsetWidth;
-				oTarget.firstChild.style.left = left + "px";
-				oTarget.firstChild.nextSibling.style.left = left + "px";
+			oDrop.onmouseover = function(e) {
 			
-				oTarget.style.display = "block"; /*加一个动态效果*/
-				//console.log(oTarget.offsetHeight);
+				if ( $lf.checkHover( e, this ) ) {
+					var left = $lf.getElementByClassName('span.person-list')[0].firstChild.offsetWidth;
+					oTarget.firstChild.style.left = left + "px";
+					oTarget.firstChild.nextSibling.style.left = left + "px";
+					
+					oTarget.style.display = "block"; /*加一个动态效果*/
+					
+					// 动画效果在ie下始终不完美
+					$lf.slideUp( oTarget );
+				}
 			};
 		
-			oDrop.onmouseout = function() {
-				oTarget.style.display = "none";
+			oDrop.onmouseout = function(e) {
+			
+				if ( $lf.checkHover( e, this ) ) {
+					$lf.slideDown( oTarget );
+				}
 			};
 			
 			$lf.addClickEvent();

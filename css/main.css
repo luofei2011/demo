@@ -42,7 +42,7 @@ img {
 }
 
 /*主体样式*/
-.wrapper {
+#wrapper {
     width: 960px;
     margin: 0 auto;
 }
@@ -172,11 +172,14 @@ a.photo {
 	line-height: 36px;
 	border-radius: 3px;
 	display: none;
+	border-bottom: 1px solid #ddd;
+	overflow: hidden;
 	top: 17px;
 }
 
 .invited-people ul {
 	border: 1px solid #ddd;
+	border-bottom: 0;
 }
 
 .icon {
@@ -194,4 +197,11 @@ a.photo {
 .down {
 	top: 4px;
 	border-bottom:6px solid #fff;
+}
+
+.readme {
+	margin-left: 170px;
+	font-size: 15px;
+	display: block;
+	margin-top: -20px;
 }
