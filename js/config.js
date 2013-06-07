@@ -145,7 +145,8 @@ function addEvent() {
 			oTarget.firstChild.style.left = left + "px";
 			oTarget.firstChild.nextSibling.style.left = left + "px";
 		
-			oTarget.style.display = "block";
+			oTarget.style.display = "block"; /*加一个动态效果*/
+			//console.log(oTarget.offsetHeight);
 		};
 	
 		oDrop.onmouseout = function() {
@@ -166,7 +167,6 @@ function addClickEvent() {
 	for ( i = 0; i < oa_len; i++ ) {
 		oA[i].onclick = function() {
 		    var oHtml = this.previousSibling.innerHTML;  // 这个错误比较特别，在这里正常得到正确值，在下一步if判断的时候却出错。所以先缓存下来
-			console.log(oHtml);
 			removeInvited(oHtml);
 			inviteStatus.innerHTML = changeInvitedStatus();
 			
@@ -174,7 +174,6 @@ function addClickEvent() {
 			var oBtn = document.getElementsByTagName('button');//getElementByClassName('button.remove-invite');
 			console.log(oBtn);
 			for ( var i = 0; i < oBtn.length; i++ ) {	
-				console.log(oBtn[i].nextSibling.innerHTML);
 				if ( oBtn[i].nextSibling.innerHTML === oHtml ) {
 					oBtn[i].className = "send-invite";
 					oBtn[i].innerHTML = "邀请回答";

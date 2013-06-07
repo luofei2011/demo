@@ -1,7 +1,7 @@
 var data = {};	// 服务器的响应数据
 var invitedArr = [];	// 初始化已经邀请的人
 
-(function(window) {
+;(function() {
 	var xmlhttp,
 		activexName = ["MSXML2.XMLHTTP","Microsoft.XMLHTTP"];  	// 为ie的不同版本进行对象的创建尝试
 		
@@ -47,4 +47,4 @@ var invitedArr = [];	// 初始化已经邀请的人
 		}  
 	}  
 	//return xmlhttp;
-})(window);
+})();

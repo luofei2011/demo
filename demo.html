@@ -4,23 +4,10 @@
     <meta charset="UTF-8">
     <title>知乎笔试题</title>
     <link rel="stylesheet" href="css/main.css" />
-	<script type="text/javascript" src="js/xhr.js"></script>
+	<script type="text/javascript" src="js/base.js"></script>
 </head>
 <body>
-<script type="text/javascript">
-(function() {
-    if ( data['invited'].length ) {
-        var invited = data['invited'];
-
-        // 初始化已经邀请的人的个数
-        for ( var i in invited ) {
-            invitedArr.push(invited[i]);
-        }
-    }
-
-})();
-</script>
-<div class="wrapper">
+<div id="wrapper">
     <div class="invite-body">
         <div class="search-for-invite clearfix">
             <span class="search-box">
@@ -32,6 +19,10 @@
         <ul class="suggest-persons clearfix" id="replace_ul"></ul>
     </div>
 </div>
-<script type="text/javascript" src="js/config.js"></script>
+<script type="text/javascript">
+window.onload = function() {
+	$lf.start();
+}
+</script>
 </body>
 </html>
