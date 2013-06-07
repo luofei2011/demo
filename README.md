@@ -28,6 +28,8 @@
 
 - ie下，当input框获取焦点以后状态栏信息出现跳动
 
+>
+
 	input:focus {
 		vertical-align: middle\9; 
 	}
@@ -37,6 +39,8 @@
 - js的`mouseover` & `mouseout`发生多次触发以及其子元素也会触发该事件的问题. 代码中有说明.
 
 - offsetHeight等的计算方式, 当元素的dispaly取值none时无法取到.
+
+>
 
 	offsetHeight = padding + border + height; // 主流
 	offsetHeight = height; // ie5
