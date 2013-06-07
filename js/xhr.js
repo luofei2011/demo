@@ -32,8 +32,8 @@ var invitedArr = [];	// 初始化已经邀请的人
 	xmlhttp.onreadystatechange = callback;  
 	
 	// 选择post方式请求数据
-	xmlhttp.open("POST","src/data.json",false);  
-    xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+	xmlhttp.open("GET","src/data.json",false);  
+    //xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
 	xmlhttp.send(null);
 	
 	//私有的回调函数  
