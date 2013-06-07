@@ -200,8 +200,7 @@ a.photo {
 }
 
 .readme {
-	margin-left: 170px;
-	font-size: 15px;
+	font-size: 14px;
 	display: block;
-	margin-top: -20px;
+	margin: 5px 0 5px 170px;
 }
