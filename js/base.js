@@ -130,7 +130,7 @@ var $lf = {
 			pItem = args[pNum],
 			max_value = options.max_value;	
 			
-		return options.src.replace(/(<!--)|(-->)/,'')
+		return options.src.replace(/(<!--)|(-->)/g,'')
                         .replace(/%s/g, function() {
 		
 				// 从1-max_value计数，一个来回匹配完一项
