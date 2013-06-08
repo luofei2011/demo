@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>知乎笔试题</title>
-    <link rel="stylesheet" href="css/main.min.css" />
-	<script type="text/javascript" src="js/base.min.js"></script>
+    <link rel="stylesheet" href="css/main.css" />
+    <script type="text/javascript" src="js/base.js"></script>
 </head>
 <body>
 <div id="wrapper">
@@ -13,17 +13,167 @@
             <span class="search-box">
                 <input type="text" id="search-username" name="search-username">
             </span>
-            <span class="invite-status" id="status"></span>
+            <span class="invite-status" id="status">
+                您已邀请 
+                <span class="person-list" id="person_list">
+                    <a href="" id="first"></a>
+                    <span id="comma"> , </span>
+                    <a href="" id="second"></a>
+                    <span id="p-num">等3人</span>
+                </span>
+            </span>
         </div>
         <h3>推荐人选</h3>
-        <ul class="suggest-persons clearfix" id="replace_ul"></ul>
+        <ul class="suggest-persons clearfix" id="replace_ul">
+            <!--
+            <li class="person odd">
+                <div class="person-message">
+                    <a href="%s" class="photo">
+                        <img src="%s">
+                    </a>
+                    <div class="content">
+                        <button class="send-invite">邀请回答</button>
+                        <a href="%s">%s</a>
+                        <div class="bio">%s</div>
+                    </div>
+                </div>
+            </li>
+            <li class="person even">
+                <div class="person-message">
+                    <a href="%s" class="photo">
+                        <img src="%s">
+                    </a>
+                    <div class="content">
+                        <button class="send-invite">邀请回答</button>
+                        <a href="%s">%s</a>
+                        <div class="bio">%s</div>
+                    </div>
+                </div>
+            </li>
+            <li class="person odd">
+                <div class="person-message">
+                    <a href="%s" class="photo">
+                        <img src="%s">
+                    </a>
+                    <div class="content">
+                        <button class="send-invite">邀请回答</button>
+                        <a href="%s">%s</a>
+                        <div class="bio">%s</div>
+                    </div>
+                </div>
+            </li>
+            <li class="person even">
+                <div class="person-message">
+                    <a href="%s" class="photo">
+                        <img src="%s">
+                    </a>
+                    <div class="content">
+                        <button class="send-invite">邀请回答</button>
+                        <a href="%s">%s</a>
+                        <div class="bio">%s</div>
+                    </div>
+                </div>
+            </li>
+            -->
+        </ul>
     </div>
 	<a href="https://github.com/luofei2011/zhihu-demo/tree/gh-pages" class="readme" target="_blank">>> View Source on github...</a>
 	<a href="https://github.com/luofei2011/zhihu-demo/blob/gh-pages/README.md" class="readme" target="_blank">>> README...</a>
 </div>
 <script type="text/javascript">
+var _status = document.getElementById('status'),
+    p1 = document.getElementById('first'),
+    p2 = document.getElementById('second'),
+    comma = document.getElementById('comma'),
+    oNum = document.getElementById('p-num');
+
+function changeInvited( arr ) {
+    if ( arr.length ) {
+        p1.href = arr[arr.length-1]['url'];
+        p1.innerHTML = arr[arr.length-1]['fullName'];
+
+        if ( arr.length > 1 ) {
+            comma.style.display = 'inline-block';
+            p2.href = arr[arr.length-2]['url'];
+            p2.innerHTML = arr[arr.length-2]['fullName'];
+
+            if ( arr.length > 2 ) {
+                oNum.innerHTML = "等" + arr.length + "人";
+            }
+        }
+        _status.style.display = 'inline-block';
+    } else {
+        _status.style.display = 'none';
+    }
+}
+
+function splice( arr, value ) {
+    for ( var i in arr ) {
+        if ( arr[i]['fullName'] === value ) {
+            arr.splice(i, 1);
+        }
+    }
+
+    return arr;
+}
+
 window.onload = function() {
-	$lf.start();
+    var oUl = document.getElementById('replace_ul'),
+        oHtml = oUl.innerHTML,
+        rHtml = $lf.sprintf({
+            src: oHtml,
+            target: data['recommended'],
+            max_value: 5
+        }),
+        invitedArr = (function() {
+            var invited = data['invited'],
+                invitedArr = [];
+                
+            if ( invited.length ) {
+
+                // 初始化已经邀请的人的个数
+                for ( var i in invited ) {
+                    invitedArr.push({
+                        fullName: invited[i]['fullName'],
+                        url: data['comment'] + invited[i]['urlToken']
+                    });
+                }
+            }
+
+            return invitedArr;
+        })();
+
+    oUl.innerHTML = rHtml;
+
+    // 初始化状态栏
+    changeInvited( invitedArr );
+
+    // 事件代理
+    oUl.onclick = function( e ) {
+        var target = e.srcElement ? e.srcElement : e.target,
+            oBtn = target.nodeName.toLowerCase();
+
+        if ( oBtn === 'button' ) {
+            if ( target.className === 'send-invite' ) {
+                target.innerHTML = "收回邀请";
+                target.className = 'remove-invite';
+
+                invitedArr.push({
+                    fullName: target.nextSibling.nextSibling.innerHTML,
+                    url: target.nextSibling.nextSibling.href
+                });
+            } else {
+                target.innerHTML = "邀请回答";
+                target.className = 'send-invite';
+
+                // 
+                invitedArr = splice( invitedArr, target.nextSibling.nextSibling.innerHTML );
+            }
+            // 改变状态栏
+            changeInvited( invitedArr );
+        }
+    }
+
 }
 </script>
 </body>

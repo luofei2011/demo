@@ -130,7 +130,8 @@ var $lf = {
 			pItem = args[pNum],
 			max_value = options.max_value;	
 			
-		return options.src.replace(/%s/g, function() {
+		return options.src.replace(/(<!--)|(-->)/,'')
+                        .replace(/%s/g, function() {
 		
 				// 从1-max_value计数，一个来回匹配完一项
 			   if ( pItemNum > max_value ) {
@@ -452,7 +453,6 @@ var $lf = {
 	start: function() {
 		var doc = document,
 			oUl = doc.getElementById('replace_ul'), // 推荐人列表
-			oBtn = oUl.getElementsByTagName('button'), // 推荐按钮
 			inviteStatus = doc.getElementById('status'), // 邀请状态栏
 			oInput = doc.getElementById('search-username'), // 搜索框
 			oldHtml = data['template1']; // 推荐人列表模板，从服务器中获得
@@ -477,7 +477,7 @@ var $lf = {
 		$lf.addEvent();
 		
 		// 4. 为邀请按钮绑定事件
-		for ( i = 0; i < oBtn.length; i++ ) {
+		/*for ( i = 0; i < oBtn.length; i++ ) {
 			oBtn[i].onclick = function() {
 				if ( this.innerHTML === '邀请回答' ) {
 					this.className = 'remove-invite';
@@ -491,6 +491,27 @@ var $lf = {
 				}
 				$lf.addEvent();
 			}
-		}
+		}*/
+        oUl.onclick = function( e ) {
+            var target = e.srcElement ? e.srcElement : e.target,
+                oBtn = target.nodeName.toLowerCase();
+
+            // 事件委托, 但必须得是button才行
+            if ( oBtn === 'button' ) {
+				if ( this.innerHTML === '邀请回答' ) {
+					this.className = 'remove-invite';
+					this.innerHTML = '收回邀请';
+					inviteStatus.innerHTML = $lf.changeInvitedStatus(this.nextSibling.innerHTML);
+				} else {
+					this.className = 'send-invite';
+					this.innerHTML = '邀请回答';
+					$lf.removeInvited( this.nextSibling.innerHTML );
+					inviteStatus.innerHTML = $lf.changeInvitedStatus();
+				}
+				$lf.addEvent();
+
+                return false;
+            }
+        };
 	}
 }

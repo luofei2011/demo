@@ -204,3 +204,6 @@ a.photo {
 	display: block;
 	margin: 5px 0 5px 170px;
 }
+#comma, #status {
+    display: none;
+}
