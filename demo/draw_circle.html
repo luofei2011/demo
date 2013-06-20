@@ -85,8 +85,8 @@
         oDiv.style.position = 'absolute';
 
         // 减掉圆的半径进行位置修正
-        oDiv.style.left = opt.left - 50 + 'px';
-        oDiv.style.top = opt.top - 50 + 'px';
+        oDiv.style.left = opt.left - 35 + 'px';
+        oDiv.style.top = opt.top - 35 + 'px';
 
         return oDiv;
     }
@@ -120,7 +120,7 @@
             top = oRandomY * -1,
             _left = left,
             _top = top,
-            oDiv,
+            oDiv, arr = [],
             angle = (360 / opt.num) * (PI / 180); // 转成弧度
 
        // 随机画法
@@ -131,6 +131,10 @@
                _left = top * Math.sin(angle) + left * Math.cos(angle);
                _top = top * Math.cos(angle) - left * Math.sin(angle);
            }
+           arr.push({
+               top: _top,
+               left: _left
+           });
            oDiv = createDiv({
                content: i,
                left: _left,
@@ -138,12 +142,63 @@
            });
            opt.wrap.appendChild(oDiv);
        }
+
+       return arr;
+    }
+
+    function createEleI(opt) {
+        var oI = document.createElement('i'),
+            oText = document.createTextNode('.');
+        oI.appendChild(oText);
+        oI.style.position = 'absolute';
+        oI.style.left = opt.left + 'px';
+        oI.style.top = opt.top + 'px';
+
+        return oI;
+    }
+
+    function getOffset(el) {
+        var _x = 0, _y = 0;
+        while (el && !isNaN(el.offsetLeft) && !isNaN(el.offsetTop)) {
+            _x += el.offsetLeft - el.scrollLeft;
+            _y += el.offsetTop - el.scrollTop;
+            el = el.offsetParent;
+        }
+        return { top: _y, left: _x };
+    }
+
+    function draw_line(start, end) {
+        var x1 = start.left,
+            y1 = start.top,
+            x2 = end.left,
+            oTarget = $('#for-i'),
+            y2 = end.top, x, y, _x;
+
+        if (x1 > x2) {
+            x = x2;
+            _x = Math.abs(x1-x2);
+        } else {
+            x = x1;
+            _x = Math.abs(x2-x1);
+        }
+
+        while(_x > 0.4) {
+            y = ((x-x1)*(y2-y1)/(x2-x1)) + y1;
+            var oI = createEleI({
+                left: x,
+                top: y
+            });
+            oTarget.appendChild(oI);
+            x += 0.4;
+            _x -= 0.4;
+        };
     }
 
     window.onload = function() {
         var btn = $('#btn'),
             oWrap = $('#wrap'),
-            c_num = $('#c_num');
+            c_num = $('#c_num'),
+            oTarget = $('#for-i');
 
         // 初始化
         draw_cirle_random({
@@ -156,12 +211,29 @@
             
             // 每次点击重画的时候都清空画布
             oWrap.innerHTML = "";
+            oTarget.innerHTML = "";
 
-            draw_cirle_random({
+            var arr = draw_cirle_random({
                 num: num,
                 wrap: oWrap
             });
+        }
 
+        var line = $('#line');
+        line.onclick = function() {
+            var oCricle = document.querySelectorAll('.circle');
+            var end = getOffset($('.cover'));
+            for (var i = 0; i < oCricle.length; i++) {
+                var opt = getOffset(oCricle[i]);
+                draw_line({
+                    left: opt.left + 50,
+                    top: opt.top + 50
+                }, 
+                {
+                    left: end.left + 25,
+                    top: end.top + 15
+                });
+            }
         }
 
         // 事件代理
@@ -213,6 +285,7 @@
 <input type="text" id="c_num" placeholder="请输入需要画的圆个数">
 <input type="button" id="btn" value="确定">
 <input type="button" id="move" value="动起来!">
+<input type="button" id="line" value-"画线">
 <div id="wrapper">
     <div id="wrap">
     </div>
@@ -225,5 +298,6 @@
     </div>
 </div>
 <div class="cover">中心</div>
+<div id="for-i"></div>
 </body>
 </html>
