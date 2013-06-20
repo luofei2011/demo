@@ -187,10 +187,32 @@
                 oShow.style.display = 'none';
             }
         }
+
+
+        // 动画效果
+        var oMove = $('#move');
+        oMove.onclick = function() {
+            var oTimer = setTimeout(function() {
+                setTimeout(arguments.callee, 10);
+                var oCricle = document.querySelectorAll('.circle'),
+                    len = oCricle.length, i = 0;
+
+                for ( ; i < len; i++ ) {
+                    var left = oCricle[i].offsetLeft,
+                        top = oCricle[i].offsetTop;
+                    //console.log(left + ' ' + top);
+                    oCricle[i].style.left = top * Math.sin(PI/180) + 
+                                           left * Math.cos(PI/180) + 'px';
+                    oCricle[i].style.top = top * Math.cos(PI/180) - 
+                                            left * Math.sin(PI/180) + 'px';
+                }
+            }, 10);
+        };
     };
 </script>
 <input type="text" id="c_num" placeholder="请输入需要画的圆个数">
 <input type="button" id="btn" value="确定">
+<input type="button" id="move" value="动起来!">
 <div id="wrapper">
     <div id="wrap">
     </div>
