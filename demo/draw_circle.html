@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>随手画圆</title>
+</head>
+<style type="text/css">
+    .cover {
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        border: 1px solid #000;
+        border-radius: 25px;
+        text-align: center;
+        margin-top: -10px;
+        margin-left: -10px;
+    }
+    .circle {
+        text-align: center;
+        line-height: 100px;
+    }
+    #wrap, .cover {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+    }
+    #wrap {
+        height: 1px;
+        width: 1px;
+    }
+</style>
+<body>
+<script type="text/javascript">
+    var PI = Math.PI,
+        R = 200;
+
+    var $ = function(selector) {
+        return document.querySelector(selector);
+    }
+
+    function createDiv(opt) {
+        var oDiv = document.createElement('div'),
+            oText = document.createTextNode(opt.content);
+
+        oDiv.appendChild(oText);
+        oDiv.className = 'circle';
+        oDiv.style.width = '100px';
+        oDiv.style.height = '100px';
+        oDiv.style.border = '1px solid #000';
+        oDiv.style.borderRadius = '50px';
+        
+        // 确定位置
+        oDiv.style.position = 'absolute';
+        oDiv.style.left = opt.left - 50 + 'px';
+        oDiv.style.top = opt.top - 50 + 'px';
+
+        return oDiv;
+    }
+
+    window.onload = function() {
+        var btn = $('#btn'),
+            oWrap = $('#wrap'),
+            c_num = $('#c_num');
+
+        btn.onclick = function() {
+            var num = parseInt(c_num.value),
+                oRandomX = Math.random() * R, // 初始化, 随机的x坐标
+                oRandomY = Math.sqrt(Math.pow(R, 2) - Math.pow(oRandomX, 2)),
+                left = oRandomX * -1, 
+                top = oRandomY * -1,
+                _left = left,
+                _top = top,
+            //
+                angle = (360 / num) * (PI / 180); // 转成弧度
+            
+            // 每次点击重画的时候都清空画布
+            oWrap.innerHTML = "";
+
+            /*
+            for ( var i = 1; i < num + 1; i++ ) {
+                if (i == 1) {
+                    oDiv = createDiv({
+                        content: i,
+                        left: 0,
+                        top: -R
+                    });
+                } else {
+                    oDiv = createDiv({
+                        content: i,
+                        left: -1 * Math.sin(angle*(i - 1)) * R,
+                        top: -1 * Math.cos(angle*(i - 1)) * R
+                    });
+                }
+                oWrap.appendChild(oDiv);
+            }
+            */
+           for ( var i = 1; i < num + 1; i++ ) {
+               if ( i != 1 ) {
+                   left = _left;
+                   top = _top;
+                   _left = top * Math.sin(angle) + left * Math.cos(angle);
+                   _top = top * Math.cos(angle) - left * Math.sin(angle);
+               }
+               oDiv = createDiv({
+                   content: i,
+                   left: _left,
+                   top: _top
+               });
+               oWrap.appendChild(oDiv);
+           }
+        }
+    };
+</script>
+<input type="text" id="c_num" placeholder="请输入需要画的圆个数">
+<input type="button" id="btn" value="确定">
+<div id="wrap">
+</div>
+<div class="cover">中心</div>
+</body>
+</html>
