@@ -19,14 +19,44 @@
         text-align: center;
         line-height: 100px;
     }
-    #wrap, .cover {
+    #wrapper, .cover {
         position: absolute;
         left: 50%;
         top: 50%;
     }
-    #wrap {
+    #wrapper {
         height: 1px;
         width: 1px;
+    }
+    #wrap {
+        position: relative;
+    }
+    #show {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        color: #666;
+        font-size: 12px;
+        width: 134px;
+        position: absolute;
+        display: none;
+    }
+    .icon {
+        position: absolute;
+        bottom: -6px;
+        left: 50%;
+        border-left:6px dashed transparent;
+        border-right:6px dashed transparent;
+        border-top:6px solid #ddd;
+        width:0;
+        height:0;
+        font-size:0; /*for IE6*/
+        line-height: 0; 
+    }
+    .down {
+        bottom: -5px;
+        left: 50%;
+        border-top:6px solid #fff;
     }
 </style>
 <body>
@@ -44,6 +74,8 @@
 
         oDiv.appendChild(oText);
         oDiv.className = 'circle';
+
+        // 半径大小
         oDiv.style.width = '100px';
         oDiv.style.height = '100px';
         oDiv.style.border = '1px solid #000';
@@ -51,10 +83,61 @@
         
         // 确定位置
         oDiv.style.position = 'absolute';
+
+        // 减掉圆的半径进行位置修正
         oDiv.style.left = opt.left - 50 + 'px';
         oDiv.style.top = opt.top - 50 + 'px';
 
         return oDiv;
+    }
+
+    function draw_cirle(opt) {
+        var oDiv,
+            angle = (360 / opt.num) * (PI / 180);
+
+        for ( var i = 1; i < opt.num + 1; i++ ) {
+            if (i == 1) {
+                oDiv = createDiv({
+                    content: i,
+                    left: 0,
+                    top: -R
+                });
+            } else {
+                oDiv = createDiv({
+                    content: i,
+                    left: -1 * Math.sin(angle*(i - 1)) * R,
+                    top: -1 * Math.cos(angle*(i - 1)) * R
+                });
+            }
+            opt.wrap.appendChild(oDiv);
+        }
+    }
+
+    function draw_cirle_random(opt) {
+        var oRandomX = Math.random() * R, // 初始化, 随机的x坐标
+            oRandomY = Math.sqrt(Math.pow(R, 2) - Math.pow(oRandomX, 2)),
+            left = oRandomX * -1, 
+            top = oRandomY * -1,
+            _left = left,
+            _top = top,
+            oDiv,
+            angle = (360 / opt.num) * (PI / 180); // 转成弧度
+
+       // 随机画法
+       for ( var i = 1; i < opt.num + 1; i++ ) {
+           if ( i != 1 ) {
+               left = _left;
+               top = _top;
+               _left = top * Math.sin(angle) + left * Math.cos(angle);
+               _top = top * Math.cos(angle) - left * Math.sin(angle);
+           }
+           oDiv = createDiv({
+               content: i,
+               left: _left,
+               top: _top
+           });
+           opt.wrap.appendChild(oDiv);
+       }
     }
 
     window.onload = function() {
@@ -62,58 +145,62 @@
             oWrap = $('#wrap'),
             c_num = $('#c_num');
 
+        // 初始化
+        draw_cirle_random({
+            num: 8,
+            wrap: oWrap
+        });
+
         btn.onclick = function() {
-            var num = parseInt(c_num.value),
-                oRandomX = Math.random() * R, // 初始化, 随机的x坐标
-                oRandomY = Math.sqrt(Math.pow(R, 2) - Math.pow(oRandomX, 2)),
-                left = oRandomX * -1, 
-                top = oRandomY * -1,
-                _left = left,
-                _top = top,
-            //
-                angle = (360 / num) * (PI / 180); // 转成弧度
+            var num = parseInt(c_num.value);
             
             // 每次点击重画的时候都清空画布
             oWrap.innerHTML = "";
 
-            /*
-            for ( var i = 1; i < num + 1; i++ ) {
-                if (i == 1) {
-                    oDiv = createDiv({
-                        content: i,
-                        left: 0,
-                        top: -R
-                    });
-                } else {
-                    oDiv = createDiv({
-                        content: i,
-                        left: -1 * Math.sin(angle*(i - 1)) * R,
-                        top: -1 * Math.cos(angle*(i - 1)) * R
-                    });
-                }
-                oWrap.appendChild(oDiv);
+            draw_cirle_random({
+                num: num,
+                wrap: oWrap
+            });
+
+        }
+
+        // 事件代理
+        oWrap.onmouseover = function(e) {
+            var target = e.srcElement ? e.srcElement : e.target,
+                oBtn = target.nodeName.toLowerCase(),
+                oShow = $('#show');
+
+            if (oBtn === 'div') {
+                oShow.style.top = target.offsetTop - 40 + 'px';
+                oShow.style.left = target.offsetLeft - 40 + 'px';
+                oShow.style.display = 'block';
             }
-            */
-           for ( var i = 1; i < num + 1; i++ ) {
-               if ( i != 1 ) {
-                   left = _left;
-                   top = _top;
-                   _left = top * Math.sin(angle) + left * Math.cos(angle);
-                   _top = top * Math.cos(angle) - left * Math.sin(angle);
-               }
-               oDiv = createDiv({
-                   content: i,
-                   left: _left,
-                   top: _top
-               });
-               oWrap.appendChild(oDiv);
-           }
+        }
+        oWrap.onmouseout = function(e) {
+            var target = e.srcElement ? e.srcElement : e.target,
+                oBtn = target.nodeName.toLowerCase(),
+                oShow = $('#show');
+
+            if (oBtn === 'div') {
+                oShow.style.top = '0';
+                oShow.style.left = '0';
+                oShow.style.display = 'none';
+            }
         }
     };
 </script>
 <input type="text" id="c_num" placeholder="请输入需要画的圆个数">
 <input type="button" id="btn" value="确定">
-<div id="wrap">
+<div id="wrapper">
+    <div id="wrap">
+    </div>
+    <div id="show">
+        <b class="icon"></b>
+        <b class="icon down"></b>
+        <span class="content">
+        这是展示内容的地方.
+        </span>
+    </div>
 </div>
 <div class="cover">中心</div>
 </body>
