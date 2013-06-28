@@ -1,0 +1,249 @@
+html,body{
+    font: 12px/1.5 Arial,Helvetica,sans-serif;
+	height:101%;
+    color: #666;
+}
+body, div, ul, li,
+h1, h2, h3, h4, h5, h6,
+form, input, button,
+img, textarea, p, th, td {
+    margin: 0;
+    padding: 0;
+}
+ul {
+    list-style: none;
+}
+img {
+    border: 0;
+}
+input, img {
+    vertical-align: middle;
+}
+a {
+    font-family: "黑体";
+    color: #8b8b8b;
+    text-decoration: none;
+}
+.clearfix { zoom: 1; }
+.clearfix:after { clear: both; }
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+.grid-960 {
+    width: 960px;
+    margin: 0 auto;
+}
+#wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin-bottom: -95px;
+    _text-align: center;
+}
+#header {
+    height: 47px;
+    line-height: 47px;
+    background: #fff;
+    background: -moz-linear-gradient(top, #fff, #f7f6f5);
+    background: -webkit-linear-gradient(top, #fff, #f7f6f5);
+    background: -ms-linear-gradient(top, #fff, #f7f6f5);
+    background: -o-linear-gradient(top, #fff, #f7f6f5);
+    background: linear-gradient(top, #fff, #f7f6f5);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff,endColorstr=#f7f6f5)";
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff,endColorstr=#f7f6f5);
+    box-shadow: 0 0 5px #ccc;;
+    -webkit-box-shadow: 0 0 5px #ccc;;
+    -mox-box-shadow: 0 0 5px #ccc;;
+    border: 1px solid #dcdcdc;
+}
+.headlink {
+    float: left;
+}
+.headlink a {
+    font-size: 14px;
+    margin-right: 37px;
+}
+.headlink a.active {
+    color: #ff8c1a;
+}
+.headmenu {
+    float: right;
+}
+.headmenu li {
+    float: right;
+    margin-right: 8px;
+    margin-left: 10px;
+}
+.form-search {
+    display: inline-block;
+    vertical-align: middle;
+    _width: 170px;
+    +margin-top: 11px;
+    zoom: 1;
+    *display: inline;
+}
+.headmenu li form {
+    background: url(../img/search.png) no-repeat -2px -2px;
+    height: 26px;
+    line-height: 26px;
+    padding-left: 6px;
+    display: block;
+}
+.headmenu li input {
+    width: 134px;
+    border: 0 none;
+    background: 0;
+    display: inline;
+}
+.headmenu li input:focus {
+    outline: none;
+}
+.headmenu li input.form-submit {
+    width: 27px;
+    height: 27px;
+    cursor: pointer;
+    font-size: 0;
+    line-height: 0;
+    text-indent: -9999px;
+}
+.content-title {
+    _text-align: left;
+    padding: 30px 3px;
+}
+.content-title h2 {
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+    font: normal 18px '黑体';
+}
+.live-wrap {
+    padding: 33px 0 20px 0;
+    background: #f8f8f8;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+.live-item ul {
+    height: 292px;
+    margin: 0 20px 0 10px;
+}
+.content-title-icon {
+    background: url(../img/duobei.png) no-repeat;
+}
+.live-item ul li {
+    width: 240px;
+    float: left;
+    margin-right: 102px;
+}
+.main {
+    width: 694px;
+    float: left;
+}
+.slide {
+    width: 266px;
+    float: right;
+}
+.H-187 {
+    height: 193px;
+    width: 694px;
+}
+.small-item {
+    width: 193px;
+    float: left;
+    margin-right: 36px;
+    margin-bottom: 35px;
+}
+.live-item ul li.non-margin-right {
+    margin-right: 0;
+}
+.content-title-icon {
+    display: inline-block;
+    background-position: -142px -11px;
+    vertical-align: middle;
+    margin-bottom: 5px;
+    margin-left: 8px;
+    height: 24px;
+    width: 24px;
+} 
+.video-bak img {
+    border: 6px solid #fff;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    box-shadow: 0 0 2px #ddd;
+    -moz-box-shadow: 0 0 2px #ddd;
+    -webkit-box-shadow: 0 0 2px #ddd;
+}
+.detail-msg {
+    margin-top: 12px;
+}
+.item-title {
+    font-size: 14px;
+}
+.small-item-title {
+    font-size: 13px;
+}
+.item-content {
+    height: 36px;
+    overflow: hidden;
+    margin: 12px 0 15px;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+.author-msg {
+    height: 30px;
+    line-height: 30px;
+}
+.author-msg a {
+    float: left;
+}
+.author-name {
+    margin-left: 10px;
+}
+.author-msg .pub-time, 
+.author-msg .fllow_num,
+.author-msg .thumb_non_active {
+    float: right;
+    margin-right: 8px;
+}
+.thumb_non_active {
+    display: inline-block;
+    background: url(../img/duobei_01.png) no-repeat;
+    background-position: -247px -19px;
+    height: 10px;
+    width: 12px;
+    margin-top: 11px;
+}
+.game-video {
+    padding: 47px 60px;
+    background: #f8f8f8;
+}
+.play-dota {
+    font-size: 15px;
+    margin-top: 45px;
+    margin-bottom: 18px;
+}
+.author-photo {
+    float: left;
+}
+.person-list {
+    margin-bottom: 32px;
+}
+.person-msg {
+    margin-left: 53px;
+}
+.person-msg a {
+    font-size: 13px;
+    color: #333;
+}
+.person-msg div {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 3px;
+}
+#footer-push {
+    height: 95px;
+    clear: both;
+}
+#footer {
+    height: 95px;
+    line-height: 95px;
+    _text-align: center;
+}
