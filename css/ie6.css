@@ -1,0 +1,18 @@
+/*
+ * hack ie6 position: fixed
+ * */
+*html {
+    background: url(about:blank);
+    background-attachment: fixed;
+}
+#other-plat {
+    _position: absolute;
+    _bottom: auto;
+    _top: expression(eval(document.documentElement.scrollTop));
+}
+#totop {
+    _position: absolute;
+    _bottom: auto;
+    _margin-bottom: 100px;
+    _top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)));
+}

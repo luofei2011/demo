@@ -1,3 +1,6 @@
+/*
+ * main.css
+ * */
 html,body{
     font: 12px/1.5 Arial,Helvetica,sans-serif;
 	height:101%;
@@ -23,9 +26,9 @@ a {
     color: #8b8b8b;
     text-decoration: none;
 }
-a:hover {
-    text-decoration: underline;
-}
+a:hover { text-decoration: underline; }
+a:active {star:expression_r(this.onFocus=this.blur());}
+a:focus { outline:0; }
 .clearfix { zoom: 1; }
 .clearfix:after { clear: both; }
 .clearfix:before, .clearfix:after { content: ""; display: table; }
@@ -161,6 +164,8 @@ a:hover {
     float: left;
     margin-right: 36px;
     margin-bottom: 35px;
+    /*清除ie6下的浮动元素双倍margin*/
+    _display: inline;
 }
 .live-item ul li.non-margin-right {
     margin-right: 0;
@@ -337,10 +342,17 @@ a:hover {
     margin: 0 8px;
     height: 38px;
     line-height: 38px;
+    /* line-height在ie6下失效. 解决办法:
+     * margin-top: (所属行高(60) - 自身高度(38)) / 2
+     * */
+    _margin-top: 9px;
     width: 114px;
+    _width: 113px;
     color: #fff;
     font-size: 13px;
     vertical-align: middle;
+    border-radius: 5px;
+    border: 2px solid #484848;
 }
 #other-plat a:hover {
     text-decoration: none;
@@ -365,7 +377,61 @@ a:hover {
     clear: both;
 }
 #footer {
-    height: 95px;
-    line-height: 95px;
-    _text-align: center;
+    border-top: 1px solid #dfdedd;
+    margin-top: 40px;
+    padding-bottom: 10px;
+}
+.duobei_logo,
+.weibo-icon,
+.tx-icon,
+.rr-icon {
+    background: url(../img/footer.png) no-repeat;
+    padding-left: 24px;
+    display: inline-block;
+}
+.duobei_logo {
+    background-position: 0 0;
+    width: 48px;
+    height: 47px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    padding-left: 0;
+}
+#footer ul {
+    margin: 40px 27px 20px;
+}
+#footer ul li {
+    width: 160px;
+    float: left;
+}
+#footer ul li p {
+    margin: 5px 0;
+}
+#footer ul li .footer-item-title {
+    font-size: 14px;
+    line-height: 21px;
+    color: #333;
+    margin-bottom: 18px;
+}
+.weibo-icon {
+    background-position: -59px 1px;
+}
+.tx-icon {
+    background-position: -59px -25px;
+}
+.rr-icon {
+    background-position: -59px -51px;
+}
+.footer-company-info {
+    margin-top: 200px;
+    color: #d9d9d9;
+    text-align: left;
+    margin-bottom: 40px;
+}
+.footer-company-info a {
+    color: #d9d9d9;
+}
+.footer-company-info a,
+.footer-company-info span {
+    margin: 0 5px;
 }

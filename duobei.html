@@ -5,6 +5,9 @@
     <title>CCAV今日直播</title>
     <link rel="stylesheet" href="./css/doubei.css" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <!--[if IE 6]>
+    <link rel="stylesheet" href="./css/ie6.css" />
+    <![endif]-->
     <script type="text/javascript" src="./js/data.js"></script>
 </head>
 <body>
@@ -21,9 +24,12 @@
         placeholder(oInput);
         totop.style.right = winWidth + 'px';
         window.onscroll = function() {
-            var d = document.body.scrollTop;
+            //var d = document.body.scrollTop;
+            var scrollTop = document.documentElement.scrollTop ||
+                            //document.documentElement.scrollTop :
+                            document.body.scrollTop;
 
-            if ( d > 40 ) {
+            if ( scrollTop > 40 ) {
                 totop.style.display = 'block';
                 other_plat.style.display = 'block';
                 header.style.display = 'none';
@@ -36,7 +42,10 @@
         totop.onclick = function() {
             window.scroll(0, 0);
         }
+
+        // 使用父节点main做所有a.thumb的事件代理源
         oMain[0].onclick = function(e) {
+            var e = window.event || e;
             var oTarget = e.srcElement ? e.srcElement : e.target,
                 className = oTarget.className, prev;
 
@@ -127,7 +136,7 @@
                 </div>
             </div>
         </div>
-        <div class="other-video grid-960">
+        <div class="grid-960">
             <!--互联网科技创业-->
             <div class="main">
                 <div class="content-title">
@@ -233,22 +242,86 @@
             </div>
         </div>
     </div>
+    <span>
+        <a id="totop" href="javascript:void(0);"></a>
+    </span>
+    <div id="other-plat">
+        <span>优秀的你, 一定想发现, 分享更多干货知识</span>
+        <span class="write-arrow"></span>
+        <a href="" class="weibo-login">新浪微博登录</a>
+        <a href="" class="renren-login">人人帐号登录</a>
+    </div>
+    <!--铺满一屏-->
     <div id="footer-push"></div>
 </div>
-<span>
-    <a id="totop" href="javascript:void(0);"></a>
-</span>
-<div id="other-plat">
-    <span>优秀的你, 一定想发现, 分享更多干货知识</span>
-    <span class="write-arrow"></span>
-    <a href="" class="weibo-login">新浪微博登录</a>
-    <a href="" class="renren-login">人人帐号登录</a>
-</div>
 <script type="text/javascript" src="./js/doubei.js"></script>
-<div id="footer">
-    <p class="grid-960">
-    Copyright &copy; 2013 duobei.com
-    </p>
+<div id="footer" class="grid-960">
+    <ul>
+      <li>
+          <div class="duobei_logo"></div>
+          <p>找课程, 上多贝</p>
+      </li>
+      <li>
+        <p class="footer-item-title">我是老师</p>
+        <p>
+            <a href="#">发布公开课</a>
+        </p>
+        <p>
+            <a href="#">教室常见方式</a>
+        </p>
+        <p>
+            <a href="#">收费方式</a>
+        </p>
+        <p>
+            <a href="#">如何嵌入多贝网络教室</a>
+        </p>
+        <p>
+            <a href="#">如何实现屏幕共享</a>
+        </p>
+      </li>
+      <li>
+        <p class="footer-item-title">我是学生</p>
+        <p>
+            <a href="#">参加直播课</a>
+        </p>
+        <p>
+            <a href="#">课程表</a>
+        </p>
+      </li>
+      <li>
+        <p class="footer-item-title">关于多贝</p>
+        <p>
+            <a href="#">和我们一起工作</a>
+        </p>
+        <p>
+            <a href="#">意见反馈</a>
+        </p>
+        <p>
+            <a href="#">联系我们</a>
+        </p>
+        <p>
+            <a href="#">友情链接</a>
+        </p>
+      </li>
+      <li>
+        <p class="footer-item-title">关注我们</p>
+        <p>
+            <a href="#" class="weibo-icon">新浪微博</a>
+        </p>
+        <p>
+            <a href="#" class="tx-icon">腾讯微博</a>
+        </p>
+        <p>
+            <a href="#" class="rr-icon">人人主页</a>
+        </p>
+      </li>
+    </ul>
+    <div class="footer-company-info">
+    <span>Copyright &copy; 2013 duobei.com | </span>
+    <a href="#">服务条款</a> |
+    <a href="#">京ICP证110831</a> |
+    <span>京网安备11010802009</span>
+    </div>
 </div>
 </body>
 </html>

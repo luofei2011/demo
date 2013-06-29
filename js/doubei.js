@@ -1,14 +1,24 @@
+/*
+ * @author luofei (http://poised-flw.com)
+ * @created at 2013-06-29
+ * */
 var $ = function(selector) {
     return document.getElementById(selector);
 };
+
+/*
+ * @method getElementByClassName
+ * @param {string} str 选择的范围和目标, 如: div.test表示选择类名为test的div元素
+ * @return {array} result 返回匹配的数组, 没有则返回空数组
+ * */
 var getElementByClassName = function( str ) {
-    var elem = str.slice(0, str.indexOf('.')) || '',  // éè¿ä¼ éçåæ°å¾å°åç´ ååå¯¹åºçç±»å
+    var elem = str.slice(0, str.indexOf('.')) || '',  
         className = str.slice(str.indexOf('.')+1, str.length),
         result = [],
         i = 0,
-        reg = new RegExp("\\b" + className + "\\b", 'g'); // éç¨çå¹éåºææ¾ç±»åæ­£åè¡¨è¾¾å¼
+        reg = new RegExp("\\b" + className + "\\b", 'g'); 
 
-    var all = (elem === '') ? document.getElementsByTagName('*') : document.getElementsByTagName(elem); // // å¼å®¹æ²¡æä¼ éç»ç¹åçæåµ
+    var all = (elem === '') ? document.getElementsByTagName('*') : document.getElementsByTagName(elem); 
 
     for ( ; i < all.length; i++ ) {
         if ( reg.test(all[i].className) ) {
@@ -18,11 +28,20 @@ var getElementByClassName = function( str ) {
 
     return result;
 }
+
+/*
+ * @method placeholder 兼容不具备css3中placeholder属性的浏览器, 如ie < 9
+ * @param {object} element html元素
+ * */
 function placeholder(element) {
     var placeholder = element.getAttribute('placeholder') ||
+                    // 兼容ie6/7
                       element.getAttributeNode('placeholder').nodeValue;
+
     if (element && !("placeholder" in document.createElement("input")) && placeholder) {
+
         var idLabel = element.id ;
+
         if (!idLabel) {
             idLabel = "placeholder_" + new Date().getTime();
             element.id = idLabel;
