@@ -13,20 +13,23 @@
 <body>
 <script type="text/javascript">
     window.onload = function() {
-        var oInput = $('search-text'),
-            totop = $('totop'),
-            content = $('content'),
-            header = $('header'),
-            other_plat = $('other-plat'),
-            oMain = getElementByClassName('div.main'),
+        var oInput = $('search-text'), // 搜索框
+            totop = $('totop'), // 回顶部
+            header = $('header'), // header元素
+            other_plat = $('other-plat'), // 第三方平台登录
+            oMain = getElementByClassName('div.main'), // 事件监听器
+            // 42px 为回顶部按钮自身的宽度
             winWidth = (document.body.clientWidth - 960) / 2 - 42;
 
+        // 兼容placeholder
         placeholder(oInput);
+
+        // 固定回顶部按钮的位置
         totop.style.right = winWidth + 'px';
+
+        // 监听滚动事件并进行处理
         window.onscroll = function() {
-            //var d = document.body.scrollTop;
-            var scrollTop = document.documentElement.scrollTop ||
-                            //document.documentElement.scrollTop :
+            var scrollTop = document.documentElement.scrollTop || // ie
                             document.body.scrollTop;
 
             if ( scrollTop > 40 ) {
@@ -39,13 +42,15 @@
                 header.style.display = 'block';
             }
         }
+
+        // 给回顶部按钮绑定事件
         totop.onclick = function() {
             window.scroll(0, 0);
         }
 
         // 使用父节点main做所有a.thumb的事件代理源
         oMain[0].onclick = function(e) {
-            var e = window.event || e;
+            var e = window.event || e; // ie and w3c DOM
             var oTarget = e.srcElement ? e.srcElement : e.target,
                 className = oTarget.className, prev;
 
@@ -53,7 +58,7 @@
 
             if ( className === 'thumb_non_active' ) {
                 oTarget.className = 'thumb_active';
-                prev.innerHTML = prev.innerHTML * 1 + 1;
+                prev.innerHTML = prev.innerHTML * 1 + 1; // * 1转换成int型
             } else if ( className === 'thumb_active' ) {
                 oTarget.className = 'thumb_non_active';
                 prev.innerHTML = prev.innerHTML * 1 - 1;
