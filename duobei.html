@@ -4,13 +4,52 @@
     <meta charset="UTF-8">
     <title>CCAV今日直播</title>
     <link rel="stylesheet" href="./css/doubei.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <script type="text/javascript" src="./js/data.js"></script>
 </head>
 <body>
 <script type="text/javascript">
     window.onload = function() {
-        var oInput = $('search-text');
+        var oInput = $('search-text'),
+            totop = $('totop'),
+            content = $('content'),
+            header = $('header'),
+            other_plat = $('other-plat'),
+            oMain = getElementByClassName('div.main'),
+            winWidth = (document.body.clientWidth - 960) / 2 - 42;
 
         placeholder(oInput);
+        totop.style.right = winWidth + 'px';
+        window.onscroll = function() {
+            var d = document.body.scrollTop;
+
+            if ( d > 40 ) {
+                totop.style.display = 'block';
+                other_plat.style.display = 'block';
+                header.style.display = 'none';
+            } else {
+                totop.style.display = 'none';
+                other_plat.style.display = 'none';
+                header.style.display = 'block';
+            }
+        }
+        totop.onclick = function() {
+            window.scroll(0, 0);
+        }
+        oMain[0].onclick = function(e) {
+            var oTarget = e.srcElement ? e.srcElement : e.target,
+                className = oTarget.className, prev;
+
+            prev = oTarget.previousSibling;
+
+            if ( className === 'thumb_non_active' ) {
+                oTarget.className = 'thumb_active';
+                prev.innerHTML = prev.innerHTML * 1 + 1;
+            } else if ( className === 'thumb_active' ) {
+                oTarget.className = 'thumb_non_active';
+                prev.innerHTML = prev.innerHTML * 1 - 1;
+            }
+        }
     }
 </script>
 <div id="wrapper">
@@ -39,7 +78,7 @@
             </ul>
         </div>
     </div>
-    <div class="clearfix">
+    <div id="content">
         <div class="today-live">
             <div class="content-title grid-960">
                 <h2>CCAV今日直播</h2>
@@ -48,393 +87,162 @@
             <div class="live-wrap">
                 <div class="live-item grid-960">
                     <ul>
-                      <li>
-                        <div>
-                            <a href="#" class="video-bak">
-                                <img src="./img/duobei_52.png" alt="" />
-                            </a>
-                            <div class="detail-msg">
-                                <p class="item-title">
-                                <strong>纪念逝去的绿皮火车</strong>
-                                </p>
-                                <p class="item-content">
-                                反正是以大队嘻嘻法律手段房价是的
-                                都是发生的发达了士大夫士大夫是否士大夫但是的时发生的发射的了几份加速度
-                                </p>
-                                <div class="author-msg">
-                                    <a href="#" class="author-photo">
-                                        <img src="./img/duobei_41.png" alt="" />
-                                    </a>
-                                    <a href="#" class="author-name">骆飞</a>
-                                    <a href="" class="pub-time fllow_num">早上六点</a>
-                                </div>
-                            </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div>
-                            <a href="#" class="video-bak">
-                                <img src="./img/duobei_52.png" alt="" />
-                            </a>
-                            <div class="detail-msg">
-                                <p class="item-title">
-                                <strong>纪念逝去的绿皮火车</strong>
-                                </p>
-                                <p class="item-content">
-                                反正是以大队嘻嘻法律手段房价是的
-                                都是发生的发达了士大夫士大夫是否士大夫但是的时发生的发射的了几份加速度
-                                </p>
-                                <div class="author-msg">
-                                    <a href="#" class="author-photo">
-                                        <img src="./img/duobei_41.png" alt="" />
-                                    </a>
-                                    <a href="#" class="author-name">骆飞</a>
-                                    <a href="" class="pub-time fllow_num">早上六点</a>
-                                </div>
-                            </div>
-                        </div>
-                      </li>
-                      <li class="non-margin-right">
-                        <div>
-                            <a href="#" class="video-bak">
-                                <img src="./img/duobei_52.png" alt="" />
-                            </a>
-                            <div class="detail-msg">
-                                <p class="item-title">
-                                <strong>纪念逝去的绿皮火车</strong>
-                                </p>
-                                <p class="item-content">
-                                反正是以大队嘻嘻法律手段房价是的
-                                都是发生的发达了士大夫士大夫是否士大夫但是的时发生的发射的了几份加速度
-                                </p>
-                                <div class="author-msg">
-                                    <a href="#" class="author-photo">
-                                        <img src="./img/duobei_41.png" alt="" />
-                                    </a>
-                                    <a href="#" class="author-name">骆飞</a>
-                                    <a href="" class="pub-time fllow_num">早上六点</a>
-                                </div>
-                            </div>
-                        </div>
-                      </li>
+                        <script type="text/javascript">
+                            ;(function() {
+                                var today_live = data['today_live'],
+                                    len = today_live.length, i = 0, 
+                                    str = "";
+
+                                for ( ; i < len; ) {
+                                    if ( i == len - 1 ) {
+                                        str += '<li class="non-margin-right">';
+                                    } else {
+                                        str += '<li>';
+                                    }
+
+                                    str += '<div class="one_video"><a href="#" class="video-bak">' +
+                                           '<img src="' + today_live[i].url + '"></a>' +
+                                           '<div class="detail-msg"><p class="item-title">' +
+                                           today_live[i].title + '</p>' +
+                                           '<p class="item-content">' + today_live[i].content + '</p>' +
+                                           '<div class="author-msg">' +
+                                           '<a href="#" class="author-photo"><img src="' +
+                                           today_live[i].author_photo + '"></a>' +
+                                           '<a href="#" class="author-name">' +
+                                           today_live[i].author_name + '</a>' +
+                                           '<a href="#" class="pub-time">' + today_live[i].pub_time +
+                                           '</a></div></div>';
+
+                                    if ( today_live[i].is_live ) {
+                                        str += '<a href="#" class="live-icon">直播</a>';
+                                    }
+                                    
+                                    str += '</div></li>';
+                                    i += 1;
+                                }
+                                document.write(str);
+                            })();
+                        </script>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="other-video grid-960">
             <!--互联网科技创业-->
-            <div class="in-st-bs">
+            <div class="main">
                 <div class="content-title">
                     <h2>互联网·科技·创业</h2>
                 </div>
-            </div>
-            <div class="main">
-                <div class="grid-960">
-                    <ul class="H-187">
-                      <li class="small-item">
-                        <div>
-                            <a href="#" class="video-bak">
-                                <img src="./img/duobei_64.png" alt="" />
-                            </a>
-                            <div class="detail-msg">
-                                <p class="small-item-title">
-                                <strong>纪念逝去的绿皮火车</strong>
-                                </p>
-                                <div class="author-msg">
-                                    <a href="#" class="author-photo">
-                                        <img src="./img/duobei_06.png" alt="" />
-                                    </a>
-                                    <a href="#" class="author-name">骆飞</a>
-                                    <span class="fllow_num">10002</span>
-                                    <a href="javascript:void(0);" class="thumb_non_active"></a>
-                                </div>
-                            </div>
-                        </div>
-                      </li>
-                      <li class="small-item">
-                        <div>
-                            <a href="#" class="video-bak">
-                                <img src="./img/duobei_64.png" alt="" />
-                            </a>
-                            <div class="detail-msg">
-                                <p class="small-item-title">
-                                <strong>纪念逝去的绿皮火车</strong>
-                                </p>
-                                <div class="author-msg">
-                                    <a href="#" class="author-photo">
-                                        <img src="./img/duobei_06.png" alt="" />
-                                    </a>
-                                    <a href="#" class="author-name">骆飞</a>
-                                    <span class="fllow_num">10002</span>
-                                    <a href="javascript:void(0);" class="thumb_non_active"></a>
-                                </div>
-                            </div>
-                        </div>
-                      </li>
-                      <li class="small-item">
-                        <div>
-                            <a href="#" class="video-bak">
-                                <img src="./img/duobei_64.png" alt="" />
-                            </a>
-                            <div class="detail-msg">
-                                <p class="small-item-title">
-                                <strong>纪念逝去的绿皮火车</strong>
-                                </p>
-                                <div class="author-msg">
-                                    <a href="#" class="author-photo">
-                                        <img src="./img/duobei_06.png" alt="" />
-                                    </a>
-                                    <a href="#" class="author-name">骆飞</a>
-                                    <span class="fllow_num">10002</span>
-                                    <a href="javascript:void(0);" class="thumb_non_active"></a>
-                                </div>
-                            </div>
-                        </div>
-                      </li>
-                      <li class="small-item">
-                        <div>
-                            <a href="#" class="video-bak">
-                                <img src="./img/duobei_64.png" alt="" />
-                            </a>
-                            <div class="detail-msg">
-                                <p class="small-item-title">
-                                <strong>纪念逝去的绿皮火车</strong>
-                                </p>
-                                <div class="author-msg">
-                                    <a href="#" class="author-photo">
-                                        <img src="./img/duobei_06.png" alt="" />
-                                    </a>
-                                    <a href="#" class="author-name">骆飞</a>
-                                    <span class="fllow_num">10002</span>
-                                    <a href="javascript:void(0);" class="thumb_non_active"></a>
-                                </div>
-                            </div>
-                        </div>
-                      </li>
-                      <li class="small-item">
-                        <div>
-                            <a href="#" class="video-bak">
-                                <img src="./img/duobei_64.png" alt="" />
-                            </a>
-                            <div class="detail-msg">
-                                <p class="small-item-title">
-                                <strong>纪念逝去的绿皮火车</strong>
-                                </p>
-                                <div class="author-msg">
-                                    <a href="#" class="author-photo">
-                                        <img src="./img/duobei_06.png" alt="" />
-                                    </a>
-                                    <a href="#" class="author-name">骆飞</a>
-                                    <span class="fllow_num">10002</span>
-                                    <a href="javascript:void(0);" class="thumb_non_active"></a>
-                                </div>
-                            </div>
-                        </div>
-                      </li>
-                      <li class="small-item">
-                        <div>
-                            <a href="#" class="video-bak">
-                                <img src="./img/duobei_64.png" alt="" />
-                            </a>
-                            <div class="detail-msg">
-                                <p class="small-item-title">
-                                <strong>纪念逝去的绿皮火车</strong>
-                                </p>
-                                <div class="author-msg">
-                                    <a href="#" class="author-photo">
-                                        <img src="./img/duobei_06.png" alt="" />
-                                    </a>
-                                    <a href="#" class="author-name">骆飞</a>
-                                    <span class="fllow_num">10002</span>
-                                    <a href="javascript:void(0);" class="thumb_non_active"></a>
-                                </div>
-                            </div>
-                        </div>
-                      </li>
-                    </ul>
-                </div>
+                <ul>
+                    <script type="text/javascript">
+                        ;(function() {
+                            var internet = data['internet'],
+                                len = internet.length, i = 0,
+                                str = "";
+
+                            for ( ; i < len; ) {
+                                str += '<li class="small-item"><div class="one_video">' +
+                                       '<a href="#" class="video-bak"><img src="' +
+                                       internet[i].url + '"></a>' +
+                                       '<div class="detail-msg"><p class="small-item-title">' +
+                                       internet[i].title + '</p>' +
+                                       '<div class="author-msg">' +
+                                       '<a href="#" class="author-photo"><img src="' +
+                                       internet[i].author_photo + '"></a>' +
+                                       '<a href="#" class="author-name">' +
+                                       internet[i].author_name + '</a>' +
+                                       '<span class="fllow_num">' + internet[i].fllow_num + '</span>' +
+                                       '<a href="javascript:void(0);" class="thumb_non_active">' + 
+                                       '</a></div></div>';
+                                
+                                if ( internet[i].is_live ) {
+                                    str += '<a href="#" class="live-icon">直播</a>';
+                                }
+                                
+                                str += '</div></li>';
+                                i += 1;
+                            }
+                            document.write(str);
+                        })();
+                    </script>
+                </ul>
                 <!--互联网科技创业结束-->
                 <!--出国等相关视频信息-->
-                <div class="go-abroad">
-                    <div class="content-title">
-                        <h2>出国留学 托福·SAT·雅思</h2>
-                    </div>
+                <div class="content-title">
+                    <h2>出国留学 托福·SAT·雅思</h2>
                 </div>
-                <div class="grid-960">
-                    <ul class="H-187">
-                      <li class="small-item">
-                        <div>
-                            <a href="#" class="video-bak">
-                                <img src="./img/duobei_71.png" alt="" />
-                            </a>
-                            <div class="detail-msg">
-                                <p class="small-item-title">
-                                <strong>纪念逝去的绿皮火车</strong>
-                                </p>
-                                <div class="author-msg">
-                                    <a href="#" class="author-photo">
-                                        <img src="./img/duobei_16.png" alt="" />
-                                    </a>
-                                    <a href="#" class="author-name">骆飞</a>
-                                    <span class="fllow_num">10002</span>
-                                    <a href="javascript:void(0);" class="thumb_non_active"></a>
-                                </div>
-                            </div>
-                        </div>
-                      </li>
-                      <li class="small-item">
-                        <div>
-                            <a href="#" class="video-bak">
-                                <img src="./img/duobei_71.png" alt="" />
-                            </a>
-                            <div class="detail-msg">
-                                <p class="small-item-title">
-                                <strong>纪念逝去的绿皮火车</strong>
-                                </p>
-                                <div class="author-msg">
-                                    <a href="#" class="author-photo">
-                                        <img src="./img/duobei_16.png" alt="" />
-                                    </a>
-                                    <a href="#" class="author-name">骆飞</a>
-                                    <span class="fllow_num">10002</span>
-                                    <a href="javascript:void(0);" class="thumb_non_active"></a>
-                                </div>
-                            </div>
-                        </div>
-                      </li>
-                      <li class="small-item">
-                        <div>
-                            <a href="#" class="video-bak">
-                                <img src="./img/duobei_71.png" alt="" />
-                            </a>
-                            <div class="detail-msg">
-                                <p class="small-item-title">
-                                <strong>纪念逝去的绿皮火车</strong>
-                                </p>
-                                <div class="author-msg">
-                                    <a href="#" class="author-photo">
-                                        <img src="./img/duobei_16.png" alt="" />
-                                    </a>
-                                    <a href="#" class="author-name">骆飞</a>
-                                    <span class="fllow_num">10002</span>
-                                    <a href="javascript:void(0);" class="thumb_non_active"></a>
-                                </div>
-                            </div>
-                        </div>
-                      </li>
-                      <li class="small-item">
-                        <div>
-                            <a href="#" class="video-bak">
-                                <img src="./img/duobei_71.png" alt="" />
-                            </a>
-                            <div class="detail-msg">
-                                <p class="small-item-title">
-                                <strong>纪念逝去的绿皮火车</strong>
-                                </p>
-                                <div class="author-msg">
-                                    <a href="#" class="author-photo">
-                                        <img src="./img/duobei_16.png" alt="" />
-                                    </a>
-                                    <a href="#" class="author-name">骆飞</a>
-                                    <span class="fllow_num">10002</span>
-                                    <a href="javascript:void(0);" class="thumb_non_active"></a>
-                                </div>
-                            </div>
-                        </div>
-                      </li>
-                      <li class="small-item">
-                        <div>
-                            <a href="#" class="video-bak">
-                                <img src="./img/duobei_71.png" alt="" />
-                            </a>
-                            <div class="detail-msg">
-                                <p class="small-item-title">
-                                <strong>纪念逝去的绿皮火车</strong>
-                                </p>
-                                <div class="author-msg">
-                                    <a href="#" class="author-photo">
-                                        <img src="./img/duobei_16.png" alt="" />
-                                    </a>
-                                    <a href="#" class="author-name">骆飞</a>
-                                    <span class="fllow_num">10002</span>
-                                    <a href="javascript:void(0);" class="thumb_non_active"></a>
-                                </div>
-                            </div>
-                        </div>
-                      </li>
-                      <li class="small-item">
-                        <div>
-                            <a href="#" class="video-bak">
-                                <img src="./img/duobei_71.png" alt="" />
-                            </a>
-                            <div class="detail-msg">
-                                <p class="small-item-title">
-                                <strong>纪念逝去的绿皮火车</strong>
-                                </p>
-                                <div class="author-msg">
-                                    <a href="#" class="author-photo">
-                                        <img src="./img/duobei_16.png" alt="" />
-                                    </a>
-                                    <a href="#" class="author-name">骆飞</a>
-                                    <span class="fllow_num">10002</span>
-                                    <a href="javascript:void(0);" class="thumb_non_active"></a>
-                                </div>
-                            </div>
-                        </div>
-                      </li>
-                    </ul>
-                </div>
+                <ul>
+                    <script type="text/javascript">
+                        ;(function() {
+                            var abroad = data['abroad'],
+                                len = abroad.length, i = 0,
+                                str = "";
+
+                            for ( ; i < len; ) {
+                                str += '<li class="small-item"><div>' +
+                                       '<a href="#" class="video-bak"><img src="' +
+                                       abroad[i].url + '"></a>' +
+                                       '<div class="detail-msg"><p class="small-item-title">' +
+                                       abroad[i].title + '</p>' +
+                                       '<div class="author-msg">' +
+                                       '<a href="#" class="author-photo"><img src="' +
+                                       abroad[i].author_photo + '"></a>' +
+                                       '<a href="#" class="author-name">' +
+                                       abroad[i].author_name + '</a>' +
+                                       '<span class="fllow_num">' + abroad[i].fllow_num + '</span>' +
+                                       '<a href="javascript:void(0);" class="thumb_active">' + 
+                                       '</a></div></div></div></li>';
+                                i += 1;
+                            }
+                            document.write(str);
+                        })();
+                    </script>
+                </ul>
                 <!--出国等相关视频信息结束-->
             </div>
             <div class="slide">
                 <div class="game-video">
+                    <p>牛人的dota视频!!!</p>
                     <a href="#">
-                        <img src="./img/duobei_90.png" alt="" />
+                        <img src="./img/bak/duobei_90.png" alt="" />
                     </a>
+                    <span class="gray-arrow"></span>
                 </div>
                 <p class="play-dota">你游戏么? dota排行榜</p>
                 <div class="game-rank">
-                    <div class="person-list">
-                        <a href="#" class="author-photo">
-                            <img src="./img/duobei_37.png" alt="" />
-                        </a>
-                        <div class="person-msg clearfix">
-                            <a href="#">骆飞</a>
-                            <div>擅长使用AK-47, M4A1, 长距等</div>
-                        </div>
-                    </div>
-                    <div class="person-list">
-                        <a href="#" class="author-photo">
-                            <img src="./img/duobei_37.png" alt="" />
-                        </a>
-                        <div class="person-msg clearfix">
-                            <a href="#">骆飞</a>
-                            <div>擅长使用AK-47</div>
-                        </div>
-                    </div>
-                    <div class="person-list">
-                        <a href="#" class="author-photo">
-                            <img src="./img/duobei_37.png" alt="" />
-                        </a>
-                        <div class="person-msg clearfix">
-                            <a href="#">骆飞</a>
-                            <div>擅长使用AK-47</div>
-                        </div>
-                    </div>
-                    <div class="person-list">
-                        <a href="#" class="author-photo">
-                            <img src="./img/duobei_37.png" alt="" />
-                        </a>
-                        <div class="person-msg clearfix">
-                            <a href="#">骆飞</a>
-                            <div>擅长使用AK-47</div>
-                        </div>
-                    </div>
+                    <script type="text/javascript">
+                        ;(function() {
+                            var game_rank = data['game_rank'],
+                                len = game_rank.length, i = 0,
+                                str = "";
+
+                            for ( ; i < len; ) {
+                                str += '<div class="person-list">' +
+                                       '<a href="#" class="author-photo"><img src="' +
+                                       game_rank[i].person_photo + '"></a>' +
+                                       '<div class="person-msg clearfix"><a href="#">' +
+                                       game_rank[i].person_name + '</a>' +
+                                       '<div>' + game_rank[i].description + '</div></div></div>';
+
+                                i += 1;
+                            }
+                            document.write(str);
+                        })();
+                    </script>
                 </div>
             </div>
         </div>
     </div>
     <div id="footer-push"></div>
+</div>
+<span>
+    <a id="totop" href="javascript:void(0);"></a>
+</span>
+<div id="other-plat">
+    <span>优秀的你, 一定想发现, 分享更多干货知识</span>
+    <span class="write-arrow"></span>
+    <a href="" class="weibo-login">新浪微博登录</a>
+    <a href="" class="renren-login">人人帐号登录</a>
 </div>
 <script type="text/javascript" src="./js/doubei.js"></script>
 <div id="footer">

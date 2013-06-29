@@ -20,9 +20,11 @@ input, img {
     vertical-align: middle;
 }
 a {
-    font-family: "黑体";
     color: #8b8b8b;
     text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
 }
 .clearfix { zoom: 1; }
 .clearfix:after { clear: both; }
@@ -36,12 +38,11 @@ a {
     height: auto !important;
     height: 100%;
     margin-bottom: -95px;
-    _text-align: center;
 }
 #header {
-    height: 47px;
-    line-height: 47px;
-    background: #fff;
+    height: 40px;
+    line-height: 40px;
+    background: #f7f6f5;
     background: -moz-linear-gradient(top, #fff, #f7f6f5);
     background: -webkit-linear-gradient(top, #fff, #f7f6f5);
     background: -ms-linear-gradient(top, #fff, #f7f6f5);
@@ -49,10 +50,27 @@ a {
     background: linear-gradient(top, #fff, #f7f6f5);
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff,endColorstr=#f7f6f5)";
     filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff,endColorstr=#f7f6f5);
+    zoom: 1;
     box-shadow: 0 0 5px #ccc;;
     -webkit-box-shadow: 0 0 5px #ccc;;
     -mox-box-shadow: 0 0 5px #ccc;;
     border: 1px solid #dcdcdc;
+}
+.form-search form,
+.thumb_non_active,
+.thumb_active,
+.live-icon,
+.weibo-login,
+.renren-login,
+.content-title-icon,
+.write-arrow,
+.gray-arrow,
+#totop {
+    background: url(../img/icon.png) no-repeat;
+}
+#header a:hover {
+    color: #ff8c1a;
+    text-decoration: none;
 }
 .headlink {
     float: left;
@@ -76,12 +94,12 @@ a {
     display: inline-block;
     vertical-align: middle;
     _width: 170px;
-    +margin-top: 11px;
+    +margin-top: 6px;
     zoom: 1;
     *display: inline;
 }
 .headmenu li form {
-    background: url(../img/search.png) no-repeat -2px -2px;
+    background-position: -5px -7px;
     height: 26px;
     line-height: 26px;
     padding-left: 6px;
@@ -124,13 +142,10 @@ a {
     height: 292px;
     margin: 0 20px 0 10px;
 }
-.content-title-icon {
-    background: url(../img/duobei.png) no-repeat;
-}
 .live-item ul li {
-    width: 240px;
+    width: 252px;
     float: left;
-    margin-right: 102px;
+    margin-right: 87px;
 }
 .main {
     width: 694px;
@@ -138,11 +153,8 @@ a {
 }
 .slide {
     width: 266px;
+    margin-top: 82px;
     float: right;
-}
-.H-187 {
-    height: 193px;
-    width: 694px;
 }
 .small-item {
     width: 193px;
@@ -155,7 +167,7 @@ a {
 }
 .content-title-icon {
     display: inline-block;
-    background-position: -142px -11px;
+    background-position: -184px -10px;
     vertical-align: middle;
     margin-bottom: 5px;
     margin-left: 8px;
@@ -171,14 +183,23 @@ a {
     -moz-box-shadow: 0 0 2px #ddd;
     -webkit-box-shadow: 0 0 2px #ddd;
 }
+.small-item .video-bak img {
+    height: 120px;
+    width: 180px;
+}
 .detail-msg {
     margin-top: 12px;
 }
 .item-title {
     font-size: 14px;
+    font-family: '黑体';
 }
 .small-item-title {
     font-size: 13px;
+    margin-bottom: 12px;
+}
+.go-abroad {
+    clear: both;
 }
 .item-content {
     height: 36px;
@@ -191,6 +212,10 @@ a {
     height: 30px;
     line-height: 30px;
 }
+.small-item .author-msg {
+    line-height: 20px;
+    line-height: 20px;
+}
 .author-msg a {
     float: left;
 }
@@ -199,21 +224,33 @@ a {
 }
 .author-msg .pub-time, 
 .author-msg .fllow_num,
-.author-msg .thumb_non_active {
+.author-msg .thumb_non_active,
+.author-msg .thumb_active {
     float: right;
     margin-right: 8px;
 }
-.thumb_non_active {
+.thumb_non_active, .thumb_active {
     display: inline-block;
-    background: url(../img/duobei_01.png) no-repeat;
-    background-position: -247px -19px;
+    background-position: -133px -99px;
     height: 10px;
     width: 12px;
-    margin-top: 11px;
+    margin-top: 5px;
+}
+.thumb_active {
+    background-position: -160px -99px;
 }
 .game-video {
-    padding: 47px 60px;
+    padding: 15px 60px 47px;
     background: #f8f8f8;
+    position: relative;
+}
+.game-video p {
+    margin-bottom: 15px;
+    text-align: center;
+    font: 16px '黑体';
+}
+.game-video img {
+    margin-left: 13px;
 }
 .play-dota {
     font-size: 15px;
@@ -227,7 +264,10 @@ a {
     margin-bottom: 32px;
 }
 .person-msg {
-    margin-left: 53px;
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+    margin-left: 10px;
 }
 .person-msg a {
     font-size: 13px;
@@ -237,6 +277,88 @@ a {
     font-size: 12px;
     color: #aaa;
     margin-top: 3px;
+    width: 216px;
+    overflow: hidden;
+}
+.live-icon {
+    display: inline-block;
+    background-position: -225px -9px;
+    padding-left: 26px;
+    width: 35px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 13px;
+    color: #fff;
+    position: absolute;
+    right: -10px;
+    top: -12px;
+}
+.live-icon:hover {
+    text-decoration: none;
+}
+.one_video {
+    position: relative;
+}
+.write-arrow,
+.gray-arrow {
+    display: inline-block;
+}
+.gray-arrow {
+    height: 30px;
+    width: 30px;
+    background-position: -5px -85px;
+    position: absolute;
+    right: 30px;
+    top: 30px;
+}
+.write-arrow {
+    background-position: -41px -91px;
+    height: 25px;
+    width: 35px;
+    margin: 0 8px;
+    vertical-align: middle;
+}
+#other-plat {
+    height: 60px;
+    width: 100%;
+    line-height: 60px;
+    background: #484848;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+}
+.weibo-login, .renren-login {
+    display: inline-block;
+    padding-left: 25px;
+    margin: 0 8px;
+    height: 38px;
+    line-height: 38px;
+    width: 114px;
+    color: #fff;
+    font-size: 13px;
+    vertical-align: middle;
+}
+#other-plat a:hover {
+    text-decoration: none;
+}
+.weibo-login {
+    background-position: -5px -39px;
+}
+.renren-login {
+    background-position: -151px -39px;
+}
+#totop {
+    background-position: -81px -83px;
+    height: 43px;
+    width: 42px;
+    bottom: 100px;
+    overflow: hidden;
+    position: fixed;
+    display: none;
 }
 #footer-push {
     height: 95px;
