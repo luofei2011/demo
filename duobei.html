@@ -116,16 +116,17 @@
 
                                     str += '<div class="one_video"><a href="#" class="video-bak">' +
                                            '<img src="' + today_live[i].url + '"></a>' +
-                                           '<div class="detail-msg"><p class="item-title">' +
-                                           today_live[i].title + '</p>' +
+                                           '<div class="detail-msg"><p' +
+                                           ' class="item-title"><a href="#">' +
+                                           today_live[i].title + '</a></p>' +
                                            '<p class="item-content">' + today_live[i].content + '</p>' +
                                            '<div class="author-msg">' +
                                            '<a href="#" class="author-photo"><img src="' +
                                            today_live[i].author_photo + '"></a>' +
                                            '<a href="#" class="author-name">' +
                                            today_live[i].author_name + '</a>' +
-                                           '<a href="#" class="pub-time">' + today_live[i].pub_time +
-                                           '</a></div></div>';
+                                           '<span class="pub-time">' + today_live[i].pub_time +
+                                           '</span></div></div>';
 
                                     if ( today_live[i].is_live ) {
                                         str += '<a href="#" class="live-icon">直播</a>';
@@ -159,7 +160,7 @@
                                        '<a href="#" class="video-bak"><img src="' +
                                        internet[i].url + '"></a>' +
                                        '<div class="detail-msg"><p class="small-item-title">' +
-                                       internet[i].title + '</p>' +
+                                       '<a href="#">' + internet[i].title + '</a></p>' +
                                        '<div class="author-msg">' +
                                        '<a href="#" class="author-photo"><img src="' +
                                        internet[i].author_photo + '"></a>' +
@@ -197,7 +198,7 @@
                                        '<a href="#" class="video-bak"><img src="' +
                                        abroad[i].url + '"></a>' +
                                        '<div class="detail-msg"><p class="small-item-title">' +
-                                       abroad[i].title + '</p>' +
+                                       '<a href="#">' + abroad[i].title + '</a></p>' +
                                        '<div class="author-msg">' +
                                        '<a href="#" class="author-photo"><img src="' +
                                        abroad[i].author_photo + '"></a>' +
