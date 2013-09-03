@@ -38,6 +38,8 @@ node.js知识分享
     req.write('data\n');
     req.end();
 
+=====
+
 #### 注：
     
 1. node的监听器与js不同！
@@ -58,11 +60,11 @@ node.js知识分享
 2. 根据uid得到当前教室信息
 3. 根据教室信息加载教室资源
 
-__PS:__若我们提供了api供外界使用：
+__PS:__若我们提供了`api`供外界使用：
 
-api.getAuth('uid', function(auth) {});
-apt.getRoomInfo('uid', function(roomInfo) {});
-apt.getRoomSource('uid', function(roomSource) {});
+    api.getAuth('uid', function(auth) {});
+    apt.getRoomInfo('uid', function(roomInfo) {});
+    apt.getRoomSource('uid', function(roomSource) {});
 
 会出现什么问题？如何解决？
 
@@ -70,5 +72,43 @@ Oh my god! 无穷回调！
 
 [EventProxy by @朴灵](http://weibo.com/shyvo)
 
-# END
+=====
 
+## 事件队列
+
+场景：大规模，高并发数据库查询请求！
+
+#### 普通模式
+
+    var select = function(callback) {
+        db.select("SQL", fucntion(results) {
+            callback(results);
+        });
+    };
+
+考虑站点刚开启，无任何sql结果缓存！大量请求到来的时候？
+
+=====
+
+第一步改进：加状态锁
+
+    var status = "ready";
+    var select = function(callback) {
+        if (status === "ready") {
+            status = "pending";
+            db.select("SQL", fucntion(results) {
+                callback(results);
+                status = "ready";
+            });
+        }
+    };
+
+带来什么问题？
+
+=====
+
+再一步改进：事件队列 + 状态锁
+
+=====
+
+# END
