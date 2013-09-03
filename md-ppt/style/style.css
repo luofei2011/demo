@@ -1,0 +1,191 @@
+/* ----------
+ * include
+ * ---------- */
+@font-face {
+	src: url(Lato-Regular.woff);
+	font-family: "Lato-Regular";
+}
+
+/* ----------
+ * reset
+ * ----------*/
+body {
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	background: #efefef;
+	color: #000;
+	font: 16px/1.5 "Lato-Regular","Helvetica Neue",Helvetica,Arial,"Microsoft YaHei",sans-serif;
+}
+ul, ol {
+	font-size: 15px;
+	color: #444;
+}
+ul {
+	list-style-type: square;
+}
+code, pre {
+	font-family: Monaco, console, monospace;
+}
+a {
+	color: #555;
+}
+a:hover {
+	color: #111;
+}
+h1 {
+	width: 100%;
+	border-bottom: 3px solid #EEE;
+	font-size: 4.5em;
+	margin-top: 150px;
+	text-align: center;
+}
+
+h2 {
+	padding: 0px 20px;
+	margin: 0;
+	color: #222;
+	border-bottom: 1px solid #DDD;
+	text-align: center;
+}
+
+h3, h4, h5 {
+	color: #555;
+}
+
+blockquote {
+	border-left: 3px solid #DDD;
+	padding-left: 12px;
+	margin: 1em 24px;
+	color: #444;
+	font-style: italic;
+	font-size: 15px;
+}
+
+pre {
+	padding: 10px;
+	font-size: 14px;
+	background: #444;
+	color: #fefefe;
+	overflow-y: auto;
+}
+
+p code {
+	border: 1px solid #e4e4e4;
+	background: #f4f4f4;
+	padding: 0 2px;
+	border-radius: 3px;
+	margin: 0 2px;
+	color: #555;
+	font-size: 13px;
+}
+
+hr {
+    height: 0;
+    margin: 0 20px;
+    border: 0px solid #DDD;
+    border-top-width: 1px;
+}
+table {
+	margin: 20px auto;
+	border-collapse: collapse;
+	border: 1px solid #999;
+	cursor: pointer;
+}
+thead {
+	background: #EEE;
+}
+td, th {
+	border: 1px solid #CCC;
+	border-spacing: 0px;
+	padding: 3px 10px;
+}
+tr:hover td{
+	background: #f6f6f6;
+}
+::-webkit-scrollbar-track {
+	/*background: -webkit-linear-gradient(left, #eee 10%, #fff 100%);*/
+	background-color: #eee;
+}
+::-webkit-scrollbar-thumb {
+	/*background: -webkit-linear-gradient(left, #bbb 10%, #999 100%);*/
+	background-color: #999;
+}
+::-webkit-scrollbar {
+	width: 8px;
+	height: 10px;
+}
+/* ----------
+ * style
+ * ---------- */
+ #info {
+ 	position: fixed;
+ 	right: 20px;
+ 	bottom: 20px;
+ 	color: #777;
+ 	text-align: center;
+ }
+
+.ppt_item {
+	position: absolute;
+	top: 50%;
+	width: 840px;
+	margin-left: -430px;
+	
+	/*height: 460px;*/
+	/*margin-top: -250px;*/
+	
+	height: 500px;
+	margin-top: -270px;
+
+	/*height: 560px;
+	margin-top: -300px;*/
+
+	padding: 20px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	background: #FFFFFF;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+	-webkit-transition: left .5s ease, opacity .8s ease-out;
+	-moz-transition: left .5s ease, opacity .8s ease-out;
+	-ms-transition: left .5s ease, opacity .8s ease-out;
+	-o-transition: left .5s ease, opacity .8s ease-out;
+	transition: left .5s ease, opacity .8s ease-out;
+}
+.ppt_item.wait {
+	left: 150%;
+	opacity: 0;
+}
+.ppt_item.show {
+	left: 50%;
+	opacity: 1;
+}
+.ppt_item.over {
+	left: -50%;
+	opacity: 0;
+}
+.ppt_item img {
+	display: block;
+	margin: 0px auto;
+	max-width: 100%;
+	/*max-height: 420px;*/
+	box-shadow: 0 0 5px rgba(0,0,0,.5);
+}
+
+#process {
+	position: absolute;
+	left: 0;
+	bottom: 5px;
+	height: 3px;
+	width: 100%;
+}
+#current {
+	height: 100%;
+	width: 0%;
+	background: #AAAAAA;
+	-webkit-transition: width .5s ease-out;
+	-moz-transition: width .5s ease-out;
+	-ms-transition: width .5s ease-out;
+	-o-transition: width .5s ease-out;
+	transition: width .5s ease-out;
+}
