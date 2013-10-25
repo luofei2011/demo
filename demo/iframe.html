@@ -10,7 +10,9 @@ window.addEventListener('load', function() {
     var oTimer = window.setInterval(function() {
         var message = "你好！ 我是http://www.poised-flw.tk的页面。"
                       + (new Date());
-        window.parent.frames[1].postMessage(message, "*");
+
+        // 很遗憾，chrome测试不能直接发送Object数据，只能通过JSON.stringify处理发送！
+        window.parent.frames[1].postMessage(message, "*"); 
     }, 1000);
 });
 </script>
