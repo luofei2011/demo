@@ -2,18 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>iframe</title>
 </head>
 <body>
 <script type="text/javascript">
 window.addEventListener('load', function() {
-    var oTimer = window.setInterval(function() {
+    var href = window.location.href,
+        oTimer,
+        oP = document.getElementById('iframe1');
+
+    oTimer = window.setInterval(function() {
         var message = "Poised_fle.tk 你好！"
                       + (new Date().getTime());
-        //window.parent.frames[1].postMessage(message, "http:www.poised-flw.tk");
         window.parent.frames[1].postMessage(message, "*");
     }, 1000);
+
+    oP.innerHTML += ", 将与" + href + "进行通信！";
 });
 </script>
+<p id="iframe1">
+这个iframe的src是http://www.poised-flw.tk.com/demo/iframe.html
+</p>
 </body>
 </html>
