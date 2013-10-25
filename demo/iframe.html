@@ -9,7 +9,7 @@
 window.addEventListener('load', function() {
     var oTimer = window.setInterval(function() {
         var obj = {},
-            obj.message = "你好！ 我是http://www.poised-flw.tk的页面。"
+            obj["message"] = "你好！ 我是http://www.poised-flw.tk的页面。"
                       + (new Date());
         window.parent.frames[1].postMessage(obj, "*");
     }, 1000);
