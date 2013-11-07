@@ -1,0 +1,87 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+body {
+	background: url('bg.png') 0 0 repeat;
+	overflow: hidden;
+}
+.block {
+	width: 100px;
+	height: 100px;
+	background: #333;
+	opacity: 0.5;
+	float: left;
+	margin: 0 2px 2px 0;
+	border-radius: 5px;
+	position: relative;
+}
+.block .i-title {
+	color: #FFF;
+	font-weight: bold;
+	display: inline-block;
+	position: absolute;
+	bottom: 5px;
+	left: 5px;
+}
+.block .i-idx {
+	font-weight: 800;
+	margin-left: 10px;
+	font-size: 40px;
+}
+.wrapper {
+	overflow: hidden;
+	width: 1224px;
+	margin: 0 auto;
+	/*position: relative;*/
+	/*z-index: 99;*/
+	/*background: #333;*/
+}
+#test {
+	width: 100px;
+	height: 100px;
+	background: red;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.light-gray {
+	background: rgb(106, 99, 95);
+}
+.dark-gray {
+	background: rgb(64, 59, 56);
+}
+.pink {
+ background: rgb(215, 112, 117);
+}
+.gray {
+ background: rgb(106, 99, 95);
+}
+.light-green {
+ background: rgb(146, 196, 105);
+}
+.light-blue {
+ background: rgb(49, 159, 189);
+} 
+.cursor-pointer {
+	cursor: pointer;
+}
+.cursor-default {
+	cursor: default;
+}
+.details {
+	/*position: relative;*/
+}
+.details .item {
+	width: 100px;
+	height: 100px;
+	background: #FFF;
+	/*opacity: 0.5;*/
+	/*float: left;*/
+	margin: 0 2px 2px 0;
+	border-radius: 5px;
+	position: absolute;
+	display: none;
+	opacity: 0;
+}
