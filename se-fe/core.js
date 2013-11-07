@@ -373,7 +373,7 @@ $(function() {
 	 				$(_this).css({
 	 					left: 61,
 	 					top: 61,
-	 					"-webkit-transform": "rotate(0)"
+	 					"-webkit-transform": "rotate(0)" // 旋转角度归位
 	 				}).hide();
 	 			})
 	 		});
@@ -392,28 +392,24 @@ $(function() {
 		 				top: 0
 		 			}).animate({
 		 				top: tmp.p.top
-		 			}, 200).animate({
-		 				top: '-=50'
+		 			// 自由落体时间
+		 			}, Math.sqrt(tmp.p.top / 5) * 50).animate({
+		 				top: '-=20'
 		 			}, 100).animate({
 		 				top: tmp.p.top
 		 			}, 100).animate({
-		 				top: '-=20'
+		 				top: '-=10'
 		 			}, 100).animate({
 		 				top: tmp.p.top
 		 			}, 100, function() {
 		 				ins.remove();
-		 				// console.log(ins);
 		 				contains[tmp.idx].innerHTML = tmp.data;
 		 				contains[tmp.idx].className = tmp.class;
+		 				// 动画做完即清空cache
+		 				FE.cache.length = 0;
 		 			});
 	 			})(ins, tmp);
 	 		}
-	 		// for (i = 0; len = FE.cache.length, i < len; i++) {
-	 		// 	tmp = FE.cache[i];
-	 		// 	contains[tmp.idx].innerHTML = tmp.data;
-	 		// 	contains[tmp.idx].className = tmp.class;
-	 		// 	// $(contains[tmp.idx]).addClass
-	 		// }
 	 	}
  	});
  });
