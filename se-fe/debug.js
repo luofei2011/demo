@@ -17,7 +17,10 @@ $(function() {
 					top: 300
 				}, 300).animate({
 					top: 290
-				}, 300);
+				}, 300, function() {
+					// console.log('end!!!');
+					test.remove();
+				});
 			}
 		});
 	}

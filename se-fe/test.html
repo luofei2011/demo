@@ -1,0 +1,26 @@
+<script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+<body>
+	<style>
+		div {
+			width: 100px;
+			height: 100px;
+			position: absolute;
+			left: 0;
+			top: 0;
+			background: red;
+		}
+	</style>
+	<script>
+		$(function() {
+			var div = $('#test');
+			div.animate({
+				left: 1000
+			}, 5000).animate({
+				top: 500
+			}, 5000).animate({
+				left: 100
+			}, 5000);
+		});
+	</script>
+	<div id="test"></div>
+</body>

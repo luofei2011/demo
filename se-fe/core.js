@@ -281,6 +281,9 @@ $(window).on('resize', function() {
 	// console.log('resize!!!!');
 	FE.init($('.wrapper'));
 	FE.reload();
+
+	// 每次resize都需要清空cache
+	FE.cache.length = 0;
 });
 
 // 取消双击选中文字事件
@@ -334,7 +337,8 @@ $(function() {
 		 			FE.cache.push({
 		 				idx: FE.titleList[i],
 		 				data: tmp.innerHTML,
-		 				class: tmp.className
+		 				class: tmp.className,
+		 				p: $(tmp).position()
 		 			});
 		 			tmp.innerHTML = '';
 		 			$(tmp).removeClass().addClass('block');
@@ -353,19 +357,19 @@ $(function() {
 	 			}, 500);
 	 		})
 	 	} else {
-	 		// alert('hide');
+	 		// alert('hide')
 	 		// children.hide();
 	 		children.each(function() {
 	 			var _this = this, deg;
 	 			deg = [-1, 1][Math.floor(Math.random() * 2)] * Math.ceil(Math.random() * 50);
-	 			console.log(+new Date(), wrapper.offset().top + wrapper.height());
+	 			// console.log(+new Date(), wrapper.offset().top + wrapper.height());
 	 			$(this).stop().css("-webkit-transform", "rotate(" + deg +"deg)").animate({
 	 				top: wrapper.offset().top + wrapper.height(),
 	 				// left: 100,
 	 				// "-webkit-transform": "rotate(50deg)",
 	 				opacity: 0
 	 			}, 500, function() {
-	 				console.log(+new Date());
+	 				// console.log(+new Date());
 	 				$(_this).css({
 	 					left: 61,
 	 					top: 61,
@@ -373,12 +377,43 @@ $(function() {
 	 				}).hide();
 	 			})
 	 		});
-	 		for (; len = FE.cache.length, i < len; i++) {
+
+	 		// 标题的动画效果
+	 		var con = $('.animate'),
+	 			ins; // 最新插入的节点
+	 		for (i = 0; len = FE.cache.length, i < len; i++) {
 	 			tmp = FE.cache[i];
-	 			contains[tmp.idx].innerHTML = tmp.data;
-	 			contains[tmp.idx].className = tmp.class;
-	 			// $(contains[tmp.idx]).addClass
+	 			con.append('<div class="block">' + tmp.data + '</div>');
+	 			ins = con.children().last();
+	 			ins[0].className = tmp.class;
+	 			;(function(ins, tmp) {
+		 			ins.show().css({
+		 				left: tmp.p.left,
+		 				top: 0
+		 			}).animate({
+		 				top: tmp.p.top
+		 			}, 200).animate({
+		 				top: '-=50'
+		 			}, 100).animate({
+		 				top: tmp.p.top
+		 			}, 100).animate({
+		 				top: '-=20'
+		 			}, 100).animate({
+		 				top: tmp.p.top
+		 			}, 100, function() {
+		 				ins.remove();
+		 				// console.log(ins);
+		 				contains[tmp.idx].innerHTML = tmp.data;
+		 				contains[tmp.idx].className = tmp.class;
+		 			});
+	 			})(ins, tmp);
 	 		}
+	 		// for (i = 0; len = FE.cache.length, i < len; i++) {
+	 		// 	tmp = FE.cache[i];
+	 		// 	contains[tmp.idx].innerHTML = tmp.data;
+	 		// 	contains[tmp.idx].className = tmp.class;
+	 		// 	// $(contains[tmp.idx]).addClass
+	 		// }
 	 	}
  	});
  });
