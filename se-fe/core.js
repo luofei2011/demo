@@ -28,12 +28,16 @@ var FE = {
 		}
 		wrapper.height(trueH);
 		wrapper.css('margin-top', (offH - trueH) / 2);
+		// wrapper.css('margin-bottom', -(offH - trueH) / 2);
+		// $('body').css('height', 'auto');
+		// wrapper.css('margin-left', (offW - trueW) / 2);
 		// wrapper.height(offH);
 		// wrapper.width(document.body.offsetWidth);
 	},
 	// 存储当前已经显示的div编号
 	titleList: [],
 	cache: [],
+	lock: [],
 	reload: function() {
 		// 随机5个项目 测试的是72个项目
 		var _idx = {}, 
@@ -291,6 +295,17 @@ $(document).on('selectstart', function() {
 	return false;
 });
 
+// 完全阻止鼠标的滚轮事件
+$(document).on('mousewheel', function() {
+	// e.preventDefault();
+	return false;
+	// console.log('scroll!!!');
+});
+// if (_d.addEventListener) {
+// 	_d.addEventListener('DOMMouseScroll', scrollFunc, false);
+// }
+// window.onmousewheel=document.onmousewheel=scrollFunc;
+
 $(function() {
 	wrapper = $('.wrapper');
 	contains = $('.block');
@@ -324,12 +339,20 @@ $(function() {
  			// o = $(this).offset();
  		// console.log(children);
  		// console.log(p);
+ 		// $(this).stop();
+ 		console.log(FE.lock.length);
+ 		if (FE.lock.length)
+ 			return;
+ 		// children.stop();
+ 		// FE.lock.length = 0;
  		this.open = this.open ? false : true;
  		if (this.open) {
 	 		xyArr = FE.getProperty({
 	 			x: p.left,
 	 			y: p.top
 	 		});
+	 		// 正确的应该是在这里清空cache
+	 		FE.cache.length = 0;
 	 		for (; len = FE.titleList.length, i < len; i++) {
 	 			tmp = contains[FE.titleList[i]];
 	 			if (tmp !== this && tmp) {
@@ -354,16 +377,30 @@ $(function() {
 	 				left: xyArr[i].x - p.left,
 	 				top: xyArr[i].y - p.top,
 	 				opacity: 1
-	 			}, 500);
-	 		})
+	 			}, 200, function() {
+	 				FE.lock.push('ok');
+	 				console.log(FE.lock.length, children.length);
+	 				if (FE.lock.length == children.length) {
+	 					FE.lock.length = 0;
+	 				};
+	 			});
+	 		});
+	 		// lock = true;
+	 		// FE.lock = false;
 	 	} else {
+	 		// if (lock) {
+	 			// lock = false;
 	 		// alert('hide')
 	 		// children.hide();
 	 		children.each(function() {
 	 			var _this = this, deg;
 	 			deg = [-1, 1][Math.floor(Math.random() * 2)] * Math.ceil(Math.random() * 50);
 	 			// console.log(+new Date(), wrapper.offset().top + wrapper.height());
-	 			$(this).stop().css("-webkit-transform", "rotate(" + deg +"deg)").animate({
+	 			$(this).stop().css({
+	 				"-webkit-transform": "rotate(" + deg +"deg)",
+	 				"-moz-transform": "rotate(" + deg +"deg)",
+	 				"transform": "rotate(" + deg +"deg)"
+	 			}).animate({
 	 				top: wrapper.offset().top + wrapper.height(),
 	 				// left: 100,
 	 				// "-webkit-transform": "rotate(50deg)",
@@ -373,7 +410,9 @@ $(function() {
 	 				$(_this).css({
 	 					left: 61,
 	 					top: 61,
-	 					"-webkit-transform": "rotate(0)" // 旋转角度归位
+	 					"-webkit-transform": "rotate(0)", // 旋转角度归位
+	 					"-moz-transform": "rotate(0)",
+	 					"transform": "rotate(0)"
 	 				}).hide();
 	 			})
 	 		});
@@ -381,6 +420,7 @@ $(function() {
 	 		// 标题的动画效果
 	 		var con = $('.animate'),
 	 			ins; // 最新插入的节点
+	 			// max_time = 0; // 运行时间最长的节点
 	 		for (i = 0; len = FE.cache.length, i < len; i++) {
 	 			tmp = FE.cache[i];
 	 			con.append('<div class="block">' + tmp.data + '</div>');
@@ -405,11 +445,17 @@ $(function() {
 		 				ins.remove();
 		 				contains[tmp.idx].innerHTML = tmp.data;
 		 				contains[tmp.idx].className = tmp.class;
+		 				FE.lock.push('ok');
+		 				if (FE.lock.length == children.length) {
+	 						FE.lock.length = 0;
+	 					};
+		 				// if (i === FE.cache.length - 1)
+		 				// 	FE.lock = false;
 		 				// 动画做完即清空cache
-		 				FE.cache.length = 0;
+		 				// FE.cache.length = 0; // 是否需要清空？？？
 		 			});
 	 			})(ins, tmp);
-	 		}
+	 		}//}
 	 	}
  	});
  });
