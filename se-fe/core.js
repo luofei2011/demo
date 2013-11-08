@@ -261,18 +261,23 @@ var FE = {
 			tmpX, tmpY;
 
 		for (; i < 2; i++) {
-			for (; len = position[i].length, j < len; j++) {
+			// hack --j = 0; fvck啊，未给j初始化，导致第二层无法正确的获取到
+			for (j = 0; len = position[i].length, j < len; j++) {
 				tmpX = position[i][j][0] * 102 + _p.x;
 				tmpY = position[i][j][1] * 102 + _p.y;
+				// console.log(position[i][j], tmpX, tmpY, _sX, _sY, _eX, _eY);
 				// 判断一个矩形是否在另一个矩形内：确保左上角和右下角都在矩形内就OK
 				if (tmpX >= _sX && tmpX <= _eX && tmpY >= _sY && tmpY <= _eY) {
+					// console.log(position[i][j], tmpX, tmpY, _sX, _sY, _eX, _eY);
 					tmpX += 102;
 					tmpY += 102;
-					if (tmpX >= _sX && tmpX <= _eX && tmpY >= _sY && tmpY <= _eY)
+					if (tmpX >= _sX && tmpX <= _eX && tmpY >= _sY && tmpY <= _eY) {
 						_pp.push({
 							x: tmpX - 102,
 							y: tmpY - 102
 						});
+						// console.log(position[i][j]);
+					}
 				}
 			}
 		}
@@ -340,7 +345,7 @@ $(function() {
  		// console.log(children);
  		// console.log(p);
  		// $(this).stop();
- 		console.log(FE.lock.length);
+ 		// console.log(FE.lock.length);
  		if (FE.lock.length)
  			return;
  		// children.stop();
@@ -373,17 +378,24 @@ $(function() {
 	 		// }
 	 		// console.log(this.open);
 	 		children.each(function(i) {
-	 			$(this).stop().show().animate({
-	 				left: xyArr[i].x - p.left,
-	 				top: xyArr[i].y - p.top,
-	 				opacity: 1
-	 			}, 200, function() {
-	 				FE.lock.push('ok');
-	 				console.log(FE.lock.length, children.length);
-	 				if (FE.lock.length == children.length) {
-	 					FE.lock.length = 0;
-	 				};
-	 			});
+	 			// console.log("----------------",i, xyArr);
+	 			// 太特么机智了，缩小窗口后子标题无法全部显示，所以不能显示的部分要默认已经显示了才能正常开启锁
+	 			if (xyArr[i]) {
+		 			$(this).stop().show().animate({
+		 				left: xyArr[i].x - p.left,
+		 				top: xyArr[i].y - p.top,
+		 				opacity: 1
+		 			}, 200, function() {
+		 				FE.lock.push('ok');
+		 				// console.log(FE.lock.length, children.length);
+		 				if (FE.lock.length == children.length) {
+		 					FE.lock.length = 0;
+		 				};
+		 			});
+		 		// 让无法显示的子标题默认开启，让锁能正常打开
+		 		} else {
+		 			FE.lock.push('ok');
+		 		}
 	 		});
 	 		// lock = true;
 	 		// FE.lock = false;
@@ -446,7 +458,7 @@ $(function() {
 		 				contains[tmp.idx].innerHTML = tmp.data;
 		 				contains[tmp.idx].className = tmp.class;
 		 				FE.lock.push('ok');
-		 				if (FE.lock.length == children.length) {
+		 				if (FE.lock.length == FE.cache.length) {
 	 						FE.lock.length = 0;
 	 					};
 		 				// if (i === FE.cache.length - 1)
