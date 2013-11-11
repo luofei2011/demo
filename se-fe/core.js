@@ -352,6 +352,8 @@ $(function() {
  		// FE.lock.length = 0;
  		this.open = this.open ? false : true;
  		if (this.open) {
+ 			// 这叫那什么，进来就关门。。。防止多次点击
+ 			FE.lock.push('ok');
 	 		xyArr = FE.getProperty({
 	 			x: p.left,
 	 			y: p.top
@@ -388,7 +390,7 @@ $(function() {
 		 			}, 200, function() {
 		 				FE.lock.push('ok');
 		 				// console.log(FE.lock.length, children.length);
-		 				if (FE.lock.length == children.length) {
+		 				if (FE.lock.length > children.length) {
 		 					FE.lock.length = 0;
 		 				};
 		 			});
@@ -404,6 +406,7 @@ $(function() {
 	 			// lock = false;
 	 		// alert('hide')
 	 		// children.hide();
+	 		FE.lock.push('ok');
 	 		children.each(function() {
 	 			var _this = this, deg;
 	 			deg = [-1, 1][Math.floor(Math.random() * 2)] * Math.ceil(Math.random() * 50);
@@ -458,7 +461,7 @@ $(function() {
 		 				contains[tmp.idx].innerHTML = tmp.data;
 		 				contains[tmp.idx].className = tmp.class;
 		 				FE.lock.push('ok');
-		 				if (FE.lock.length == FE.cache.length) {
+		 				if (FE.lock.length > FE.cache.length) {
 	 						FE.lock.length = 0;
 	 					};
 		 				// if (i === FE.cache.length - 1)
