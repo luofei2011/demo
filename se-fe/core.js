@@ -261,6 +261,8 @@ var FE = {
 			tmpX, tmpY;
 
 		for (; i < 2; i++) {
+			// 添加随机算法，使得每次出现的结果样式都不一样
+			position[i] = this.shuffle(position[i]);
 			// hack --j = 0; fvck啊，未给j初始化，导致第二层无法正确的获取到
 			for (j = 0; len = position[i].length, j < len; j++) {
 				tmpX = position[i][j][0] * 102 + _p.x;
@@ -283,6 +285,19 @@ var FE = {
 		}
 
 		return _pp;
+	},
+	/*
+	 * {Function} shuffle 将数组乱序
+	 * {Array} arr 	目标数组
+	 * {Return} arr 乱序后的数组
+	 *
+	 */
+	shuffle: function(arr) {
+		var j,x,
+			i = arr.length;
+
+		for (; i; j = parseInt(Math.random() * i), x = arr[--i], arr[i] = arr[j], arr[j] = x);
+		return arr;
 	}
 }
 
@@ -306,6 +321,15 @@ $(document).on('mousewheel', function() {
 	return false;
 	// console.log('scroll!!!');
 });
+
+// 屏蔽掉F12快捷键
+$(document).on('keydown', function(e) {
+	if (e.keyCode == 123) {
+		alert('No F12!!! ^_^');
+		return false;
+	}
+});
+
 // if (_d.addEventListener) {
 // 	_d.addEventListener('DOMMouseScroll', scrollFunc, false);
 // }
