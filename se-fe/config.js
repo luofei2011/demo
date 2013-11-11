@@ -15,7 +15,7 @@ var _color = ['light-gray',//'rgb(106, 99, 95)', 		// 浅灰色
 	contains,
 	wrapper,
 	lock,
-	isDebug = false; // 是否加载调试功能
+	isDebug = true; // 是否加载调试功能
 
 var position = [
 	[

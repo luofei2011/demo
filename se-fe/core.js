@@ -322,13 +322,22 @@ $(document).on('mousewheel', function() {
 	// console.log('scroll!!!');
 });
 
-// 屏蔽掉F12快捷键
-$(document).on('keydown', function(e) {
-	if (e.keyCode == 123) {
-		alert('No F12!!! ^_^');
+// 邪恶的操作
+if (!isDebug) {
+	// 屏蔽掉F12快捷键
+	$(document).on('keydown', function(e) {
+		if (e.keyCode == 123) {
+			alert('No F12!!! ^_^');
+			return false;
+		}
+	});
+
+	// 屏蔽鼠标右键
+	$(document).on('contextmenu', function(e) {
+		// console.log('right clicked!!!');
 		return false;
-	}
-});
+	});
+}
 
 // if (_d.addEventListener) {
 // 	_d.addEventListener('DOMMouseScroll', scrollFunc, false);
@@ -391,7 +400,7 @@ $(function() {
 		 			FE.cache.push({
 		 				idx: FE.titleList[i],
 		 				data: tmp.innerHTML,
-		 				class: tmp.className,
+		 				className: tmp.className, // class-->兼容ieclassName 兼容ie
 		 				p: $(tmp).position()
 		 			});
 		 			tmp.innerHTML = '';
@@ -464,7 +473,7 @@ $(function() {
 	 			tmp = FE.cache[i];
 	 			con.append('<div class="block">' + tmp.data + '</div>');
 	 			ins = con.children().last();
-	 			ins[0].className = tmp.class;
+	 			ins[0].className = tmp.className;
 	 			;(function(ins, tmp) {
 		 			ins.show().css({
 		 				left: tmp.p.left,
@@ -483,7 +492,7 @@ $(function() {
 		 			}, 100, function() {
 		 				ins.remove();
 		 				contains[tmp.idx].innerHTML = tmp.data;
-		 				contains[tmp.idx].className = tmp.class;
+		 				contains[tmp.idx].className = tmp.className;
 		 				FE.lock.push('ok');
 		 				if (FE.lock.length > FE.cache.length) {
 	 						FE.lock.length = 0;
