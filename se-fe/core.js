@@ -207,43 +207,45 @@ var FE = {
 	 */
 	createItem: function(arr, opp) {
 		var i = 0, _num,
-			len = arr.length;
+			len = arr.length, cName;
 		// console.log(arr);
 		this.titleList.length = 0;
 		if (opp) {
 			for (; i < len; i++) {
 				_num = arr[i];
+				cName = "item " + _color[_num] + "-border";
 				this.titleList.push(i);
 				contains[i].className += " " + _color[_num] + " cursor-pointer";
 				contains[i].innerHTML = "<span class='i-idx'>0" + (_num + 1) + "</span>" +
 						 				"<span class='i-title'>" + _title[_num] + "</span>" +
 						 				"<div class='details' title='" + _title[_num] + "'>" +
-						 				"<div class='item'></div>" +
-						 				"<div class='item'></div>" +
-						 				"<div class='item'></div>" +
-						 				"<div class='item'></div>" +
-						 				"<div class='item'></div>" +
-						 				"<div class='item'></div>" +
-						 				"<div class='item'></div>" +
-						 				"<div class='item'></div>" +
+						 				"<div class='" + cName + "'></div>" +
+						 				"<div class='" + cName + "'></div>" +
+						 				"<div class='" + cName + "'></div>" +
+						 				"<div class='" + cName + "'></div>" +
+						 				"<div class='" + cName + "'></div>" +
+						 				"<div class='" + cName + "'></div>" +
+						 				"<div class='" + cName + "'></div>" +
+						 				"<div class='" + cName + "'></div>" +
 						 				"</div>";
 			}
 		} else {
 			for (; i < len; i++) {
 				_num = arr[i];
+				cName = "item " + _color[i] + "-border";
 				this.titleList.push(_num);
 				contains[_num].className += " " + _color[i] + " cursor-pointer";
 				contains[_num].innerHTML = "<span class='i-idx'>0" + (i + 1) + "</span>" +
 						 				   "<span class='i-title'>" + _title[i] + "</span>" +
 						 				   "<div class='details' title='" + _title[_num] + "'>" +
-						 				   "<div class='item'></div>" +
-						 				   "<div class='item'></div>" +
-						 				   "<div class='item'></div>" +
-						 				   "<div class='item'></div>" +
-						 				   "<div class='item'></div>" +
-						 				   "<div class='item'></div>" +
-						 				   "<div class='item'></div>" +
-						 				   "<div class='item'></div>" +
+						 				   "<div class='" + cName + "'></div>" +
+						 				   "<div class='" + cName + "'></div>" +
+						 				   "<div class='" + cName + "'></div>" +
+						 				   "<div class='" + cName + "'></div>" +
+						 				   "<div class='" + cName + "'></div>" +
+						 				   "<div class='" + cName + "'></div>" +
+						 				   "<div class='" + cName + "'></div>" +
+						 				   "<div class='" + cName + "'></div>" +
 						 				   "</div>";
 			}
 		}
@@ -419,14 +421,17 @@ $(function() {
 		 			$(this).stop().show().animate({
 		 				left: xyArr[i].x - p.left,
 		 				top: xyArr[i].y - p.top,
-		 				opacity: 1
+		 				opacity: 1,
+		 				"border-width": 1
 		 			}, 200, function() {
 		 				FE.lock.push('ok');
 		 				// console.log(FE.lock.length, children.length);
 		 				if (FE.lock.length > children.length) {
 		 					FE.lock.length = 0;
 		 				};
-		 			});
+		 			}).animate({
+		 				"border-width": 0
+		 			}, 300);
 		 		// 让无法显示的子标题默认开启，让锁能正常打开
 		 		} else {
 		 			FE.lock.push('ok');

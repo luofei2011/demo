@@ -47,23 +47,50 @@ body {
 	left: 0;
 	top: 0;
 }
+.light-gray-border,
+.dark-gray-border,
+.pink-border,
+.gray-border,
+.light-green-border,
+.light-blue-border {
+	border-style: solid;
+	border-width: 0;
+}
 .light-gray {
 	background: rgb(106, 99, 95);
+}
+.light-gray-border {
+	border-color: rgb(106, 99, 95);
 }
 .dark-gray {
 	background: rgb(64, 59, 56);
 }
+.dark-gray-border {
+	border-color: rgb(64, 59, 56);
+}
 .pink {
  background: rgb(215, 112, 117);
+}
+.pink-border {
+ border-color: rgb(215, 112, 117);
 }
 .gray {
  background: rgb(106, 99, 95);
 }
+.gray-border {
+ border-color: rgb(106, 99, 95);
+}
 .light-green {
  background: rgb(146, 196, 105);
 }
+.light-green-border {
+ border-color: rgb(146, 196, 105);
+}
 .light-blue {
  background: rgb(49, 159, 189);
+} 
+.light-blue-border {
+ border-color: rgb(49, 159, 189);
 } 
 .cursor-pointer {
 	cursor: pointer;
