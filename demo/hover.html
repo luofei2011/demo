@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<head>
+	<title>test</title>
+	<style>
+		a {color: #fff;}
+		ul, ol, div, body, html {margin:0; padding:0;}
+		.nav {list-style: none;}
+		.nav li {float: left;background: #369;padding: 0 5px;}
+		.nav li a{display: inline-block;padding: 5px;}
+		.nav li ol {position: absolute; list-style: none;margin-left: -5px; display: none;left: 0;top: 0;}
+		.nav li ol li {float: left;}
+		.nav li ol li a:hover {background: blue;}
+		.item {position: relative;}
+		/*.item:hover > ol {
+			display: block;
+		}*/
+		.content ul {list-style: none;}
+		.content a {color: #00F;}
+		.content h3 {
+			margin: 16px 0;
+			padding: 5px 0;
+		}
+		.header {height: 10px;}
+	</style>
+	<script type="text/javascript">
+	window.onload = function() {
+		var oUl = document.getElementsByTagName('ul'),
+			oLis = oUl[0].children,
+			len = oLis.length;
+		// console.log(oLis);
+		for (var i = 0; i < len; i++) {
+			;(function(i) {
+				oLis[i].onmouseover = function() {
+					// console.log('mouseover');
+					oLis[i].children[1].style.display = "block";
+				};
+				oLis[i].onmouseout = function() {
+					// console.log('mouseover');
+					oLis[i].children[1].style.display = "none";
+				};
+			})(i);
+		}
+	}
+	</script>
+</head>
+<body>
+	<div class="header">
+		<ul class="nav">
+			<li class="item">
+				<a href="#">Item1</a>
+				<ol>
+					<li>
+						<a href="#">Child1</a>
+					</li>
+					<li>
+						<a href="#">Child2</a>
+					</li>
+					<li>
+						<a href="#">Child3</a>
+					</li>
+					<li>
+						<a href="#">Child4</a>
+					</li>
+				</ol>
+			</li>
+			<li class="item">
+				<a href="#">Item2</a>
+				<ol>
+					<li>
+						<a href="#">Child1</a>
+					</li>
+					<li>
+						<a href="#">Child2</a>
+					</li>
+					<li>
+						<a href="#">Child3</a>
+					</li>
+					<li>
+						<a href="#">Child4</a>
+					</li>
+				</ol>
+			</li>
+			<li class="item">
+				<a href="#">Item3</a>
+				<ol>
+					<li>
+						<a href="#">Child1</a>
+					</li>
+					<li>
+						<a href="#">Child2</a>
+					</li>
+					<li>
+						<a href="#">Child3</a>
+					</li>
+					<li>
+						<a href="#">Child4</a>
+					</li>
+				</ol>
+			</li>
+			<li class="item">
+				<a href="#">Item4</a>
+				<ol>
+					<li>
+						<a href="#">Child1</a>
+					</li>
+					<li>
+						<a href="#">Child2</a>
+					</li>
+					<li>
+						<a href="#">Child3</a>
+					</li>
+					<li>
+						<a href="#">Child4</a>
+					</li>
+				</ol>
+			</li>
+			<li class="item">
+				<a href="#">Item5</a>
+				<ol>
+					<li>
+						<a href="#">Child1</a>
+					</li>
+					<li>
+						<a href="#">Child2</a>
+					</li>
+					<li>
+						<a href="#">Child3</a>
+					</li>
+					<li>
+						<a href="#">Child4</a>
+					</li>
+				</ol>
+			</li>
+		</ul>
+	</div>
+	<div class="content">
+		<h3>点这里会消失？</h3>
+		<ul>
+			<li>
+				<a href="#">移动到这里也会消失吗？？？？？？？？？？？？</a>
+			</li>
+			<li>
+				<a href="#">移动到这里也会消失吗？？？？？？？？？？？？</a>
+			</li>
+			<li>
+				<a href="#">移动到这里也会消失吗？？？？？？？？？？？？</a>
+			</li>
+			<li>
+				<a href="#">移动到这里也会消失吗？？？？？？？？？？？？</a>
+			</li>
+			<li>
+				<a href="#">移动到这里也会消失吗？？？？？？？？？？？？</a>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>
