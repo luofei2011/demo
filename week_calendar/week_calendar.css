@@ -1,0 +1,28 @@
+::-webkit-scrollbar{height:16px;overflow:visible;width:16px}
+	::-webkit-scrollbar-thumb {background-color: rgba(0,0,0,.2);background-clip: padding-box;border: solid transparent;border-width: 0 0 0 7px;min-height: 28px;padding: 100px 0 0;box-shadow: inset 1px 1px 0 rgba(0,0,0,.1),inset -1px -1px 0 rgba(0,0,0,.07);}
+	::-webkit-scrollbar-button {height: 0;width: 0;}
+	::-webkit-scrollbar-track {background-clip: padding-box;border: solid transparent;border-width: 0 0 0 7px;}
+	::-webkit-scrollbar-corner {background: transparent;}
+	.wc-container {width: 100%;-webkit-user-select: none;}
+	.wc-title,.wk-table {border-spacing:0;width: 100%;table-layout: fixed;padding: 0;font-family: 微软雅黑;font-size:12px;}
+	.wc-title td {padding:0;margin:0;text-align: center;}
+	.wc-title-cell {font-size: 12px;color: #555;padding: 3px 5px;font-family:微软雅黑;}
+	.wk-content {height: 400px;overflow-y:scroll;overflow-x:hidden;}
+	.wk-scrollevents-mask{position: relative;}
+	.wk-table {border-right: 1px solid #ddd;}
+	.wk-mask {position: relative;}
+	.wk-line-wrapper {width: 100%;position: absolute;top: 1px;}
+	.wk-line-cell {height: 42px;}
+	.wk-line-top {height: 20px;margin-bottom: 20px;border-bottom: 1px dotted #ddd;border-top: 1px solid #ddd;font-size: 1px;}
+	.wkday-time {padding-right: 3px;font-weight: normal;color: #555;text-align: right;border-bottom: 1px solid #ddd;height:41px;}
+	.wkday {height: 42px;}
+	.wkday-times {vertical-align: top;border-left: 1px solid #ddd;}
+	.wkday-cell {border-left: 1px solid #ddd;}
+	.wkday-events {position: relative;}
+	.wkconent-borderBottom {border-bottom: 1px solid #ddd; margin-right: 16px;}
+	.weekc-top {margin-bottom: 10px;}
+	.events-list {height: 0; margin-right: 10px;position: relative;}
+	.events-item {position: absolute;width: 100%;}
+	.events-item dl {background: #E4EFF8;border: 1px solid #9FC6E7;color: #777;padding: 0 2px 1px;}
+	.today-mask {background: #f1f1f1;z-index: -1;}
+	.events-item dl dt {padding: 0 3px 0 4px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;word-break: keep-all;}
