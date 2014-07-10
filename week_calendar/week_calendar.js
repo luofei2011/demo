@@ -1,5 +1,6 @@
 $(function() {
 	var calendar = {
+		nowDay: '',
 		getNextAndPrevMonth: function(str) {
 			var _now = typeof str === 'undefined' ? new Date() : (typeof str === 'object' ? str : new Date(str)),
 				_nY = _now.getFullYear(),
@@ -97,13 +98,15 @@ $(function() {
 
 			return _re;
 		},
-		_init: function() {
+		_init: function(t) {
 			var _html = '',
 				container = $('<div class="wc-container"></div>'),
-				week = this.getWeekByDay(), i = 0, len,
+				week = this.getWeekByDay(t), i = 0, len,
 				wName = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
 
-			_html += '<div class="weekc-top"><table class="wc-title"><tr><td style="width: 75px;"><div class="wc-title-cell"><button><</button><button style="margin-left:5px;">></button></div></td>'
+			this.nowDay = t ? t : new Date();
+
+			_html += '<div class="weekc-top"><table class="wc-title"><tr><td style="width: 75px;"><div class="wc-title-cell"><button class="wc-prev"><</button><button style="margin-left:5px;" class="wc-next">></button></div></td>'
 
 			for (i = 1, len = week.length; i < len; i++) {
 				_html += '<td><div class="wc-title-cell">' + week[i] + ' ' + wName[i - 1] + '</div></td>';
@@ -142,17 +145,45 @@ $(function() {
 
 			_html += '</td>';
 
-			week = this.getWeekByDay();
-			var day = new Date().getDay() || 7,
+			week = this.getWeekByDay(t);
+			var day = new Date().getMonth() + 1 + '-' + new Date().getDate(),
 				tdHeight = $('div.wk-line-wrapper').height();
+				
 			for (i = 1, len = week.length; i < len; i++) {
 				_html += '<td class="wkday-cell">';
-				if (i === day)
+				if (week[i] === day)
 					_html += '<div class="today-mask" style="width: 100%;height:'+tdHeight+'px;margin-top:-2px;"></div>';
 				_html += '<div class="wkday-events"><div class="events-list"></div></div></td>';
 			}
 			_html += '</tr>';
 			$('table.wk-table tbody').append(_html);
+
+			this.bindEvent();
+		},
+		bindEvent: function() {
+			var _this = this;
+			$('button.wc-prev').on('click', function() {
+				var now = _this.nowDay, i = 0;
+
+				for (; i < 7; i++) {
+					now = _this.getPrevDay(now);
+				}
+
+				// console.log(now);
+				$('div.week-calendar').empty();
+				_this._init(now);
+			});
+
+			$('button.wc-next').on('click', function() {
+				var now = _this.nowDay, i = 0;
+
+				for (; i < 7; i++) {
+					now = _this.getNextDay(now);
+				}
+
+				$('div.week-calendar').empty();
+				_this._init(now);
+			});
 		}
 	};
 	calendar._init();
