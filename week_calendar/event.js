@@ -26,16 +26,16 @@ $(document).on('mousedown', function(e) {
 $(document).on('mouseup', function(e) {
 	isMD = false;
 
-	// var t = $(e.target),
-	// 	offset;
-	// if (t.hasClass('events-list') || t.closest('div.events-list').length) {
-	// 	t = t.hasClass('events-list') ? t : t.closest('div.events-list');
+	var t = $(e.target),
+		offset;
+	if (t.hasClass('events-list') || t.closest('div.events-list').length) {
+		t = t.hasClass('events-list') ? t : t.closest('div.events-list');
 
-	// 	t.css({
-	// 		position: 'absolute',
-	// 		'z-index': 900
-	// 	});
-	// }
+		t.css({
+			// position: 'absolute',
+			'z-index': 900
+		});
+	}
 });
 
 $(document).on('mousemove', 'div.events-list', function(e) {
