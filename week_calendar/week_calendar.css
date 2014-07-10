@@ -17,12 +17,13 @@
 	.wkday-time {padding-right: 3px;font-weight: normal;color: #555;text-align: right;border-bottom: 1px solid #ddd;height:41px;}
 	.wkday {height: 42px;}
 	.wkday-times {vertical-align: top;border-left: 1px solid #ddd;}
-	.wkday-cell {border-left: 1px solid #ddd;}
-	.wkday-events {position: relative;}
+	.wkday-cell {border-left: 1px solid #ddd;position: relative;}
+	.wkday-events {}
 	.wkconent-borderBottom {border-bottom: 1px solid #ddd; margin-right: 16px;}
 	.weekc-top {margin-bottom: 10px;}
-	.events-list {height: 0; margin-right: 10px;position: relative;}
+	.events-list {height: 0; margin-right: 10px;position: relative;background: #1abc9c;border: 1px solid #bbb;overflow: hidden;cursor: pointer;}
 	.events-item {position: absolute;width: 100%;}
 	.events-item dl {background: #E4EFF8;border: 1px solid #9FC6E7;color: #777;padding: 0 2px 1px;}
 	.today-mask {background: #f1f1f1;z-index: -1;}
 	.events-item dl dt {padding: 0 3px 0 4px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;word-break: keep-all;}
+	.new-event-mask {background: rgba(0,0,0,.5);position: fixed;z-index: 999;}

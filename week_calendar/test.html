@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>拖拽测试</title>
+	<script type="text/javascript" src="../js/jquery-1.11.0.min.js"></script>
+</head>
+<style>
+	div {
+		display: inline-block;
+		width: 400px;
+		height: 100px;
+		border: 3px solid #ddd;
+	}
+	.area {
+		position: fixed;
+		left: 50%;
+		top: 100px;
+	}
+	.move {
+		position: fixed;
+		cursor: pointer;
+		z-index: 999;
+	}
+</style>
+<body>
+	<div class="move"></div>
+	<div class="area"></div>
+</body>
+<script>
+$(function() {
+	var isMD = false,
+		clP,
+		areaOFF = $('div.area').offset();
+	$(document).on('mousedown', function(e) {
+		isMD = true;
+		clP = {
+			x: e.clientX,
+			y: e.clientY
+		}
+	});
+	$(document).on('mouseup', function(e) {
+		isMD = false;
+	});
+	$(document).on('mousemove', 'div.move', function(e) {
+		if (isMD) {
+			var diff = {
+				x: e.clientX - clP.x,
+				y: e.clientY - clP.y
+			};
+
+			var old = $(this).offset();
+			$(this).css({
+				left: old.left + diff.x,
+				top: old.top + diff.y
+			});
+
+			old = $(this).offset();
+			// 计算特征点时候在area区域内，如果在则修改area样式
+			if (old.left + $(this).width() > areaOFF.left 
+				&& old.left + $(this).width() <= areaOFF.left + $('div.area').width()
+				&& old.top + $(this).height() / 2 > areaOFF.top 
+				&& old.top + $(this).height() / 2 <= areaOFF.top + $('div.area').height()) {
+				$('div.area').css('border-style', 'dashed');
+
+				// 进入的距离
+				var _in = $(this).offset().left + $(this).width() - $('div.area').offset().left;
+
+				if (_in > $(this).width() / 2 && $('div.area').css('border-style') === 'dashed') {
+					// 进入距离大于一半时
+					$(this).animate({
+						left: $('div.area').offset().left,
+						top: $('div.area').offset().top
+					}, 800);
+				}
+			} else {
+				$('div.area').css('border-style', 'solid');
+			}
+
+			clP = {
+				x: e.clientX,
+				y: e.clientY
+			}
+		}
+	})
+})
+</script>
+</html>

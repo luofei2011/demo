@@ -148,20 +148,110 @@ $(function() {
 			week = this.getWeekByDay(t);
 			var day = new Date().getMonth() + 1 + '-' + new Date().getDate(),
 				tdHeight = $('div.wk-line-wrapper').height();
-				
+
 			for (i = 1, len = week.length; i < len; i++) {
 				_html += '<td class="wkday-cell">';
 				if (week[i] === day)
 					_html += '<div class="today-mask" style="width: 100%;height:'+tdHeight+'px;margin-top:-2px;"></div>';
-				_html += '<div class="wkday-events"><div class="events-list"></div></div></td>';
+				_html += '<div class="wkday-events"></div></td>';
 			}
 			_html += '</tr>';
 			$('table.wk-table tbody').append(_html);
 
 			this.bindEvent();
+
+			// 根据配置文件生成事件列表
+			this.showEventList(t);
+		},
+		showEventList: function(d) {
+			var week = this.getWeekByDay(d), i = 0, j = 0,
+				len = event_list.length,
+				tdCell = $('td.wkday-cell'),
+				e,
+				html = "",
+				date,
+				dateStr;
+
+			for (; i < 7; i++) {
+				for (j = 0; j < len; j++) {
+					date = new Date(event_list[j].date);
+					dateStr = date.getMonth() + 1 + '-' + date.getDate();
+					if (dateStr === week[i]) {
+						console.log(dateStr, week[i]);
+						e = $('<div class="events-list"></div>');
+						e.css({
+							'position': 'absolute',
+							height: get_time_diff(event_list[j].start, event_list[j].end) * 0.7,
+							top: get_time_diff('8:00', event_list[j].start) * 0.7
+						})
+						html += '<h3>' + event_list[j].name + '</h3>';
+						html += '<div>' + event_list[j].description + '</div>';
+						html += '<div>地点:' + event_list[j].addr + '</div>';
+						e.append(html);
+						console.log(i);
+						tdCell.eq(i - 1).find('div.wkday-events').append(e);
+
+						// 清空数据
+						html = "";
+					}
+				}
+			}
+
+			// 私有函数，计算时间差
+			function get_time_diff(t1, t2) {
+				// 默认采用24小时制, t1格式8:00
+				return Math.abs(t1.split(':')[0] - t2.split(':')[0]) * 60 + Math.abs(t1.split(':')[1] - t2.split(':')[1]);
+			}
 		},
 		bindEvent: function() {
-			var _this = this;
+			var _this = this,
+				dragMask = $('div.new-event-mask'),
+				baseTD = $('td.wkday-cell'),
+				clickPos,
+				isMouseDown = false;
+
+			// baseTD.on('mousedown', function(e) {
+			// 	var mPos = {
+			// 		x: e.clientX,
+			// 		y: e.clientY
+			// 	};
+			// 	dragMask.show().css({
+			// 		width: 0,
+			// 		height: 0,
+			// 		left: mPos.x,
+			// 		right: mPos.y
+			// 	});
+
+			// 	clickPos = mPos;
+			// 	isMouseDown = true;
+			// });
+
+			// baseTD.on('mouseup', function() {
+			// 	dragMask.hide();
+
+			// 	// 出现新建任务界面
+			// 	console.log('drag end!!!');
+			// 	isMouseDown = false;
+			// });
+
+			// baseTD.on('mouseover', function(e) {
+			// 	if (isMouseDown) {
+			// 		var diff = {
+			// 			x: e.clientX - clickPos.x,
+			// 			y: e.clientY - clickPos.y
+			// 		};
+			// 		dragMask.css({
+			// 			width: + diff.x,
+			// 			height: + diff.y
+			// 		});
+
+			// 		clickPos = {
+			// 			x: e.clientX,
+			// 			y: e.clientY
+			// 		};
+			// 	}
+			// });
+
 			$('button.wc-prev').on('click', function() {
 				var now = _this.nowDay, i = 0;
 
