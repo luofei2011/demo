@@ -1,3 +1,4 @@
+var IS_DEBUG = false;
 var isMD = false;	// 当前鼠标时候按下
 var clP;	// 鼠标点击位置
 $(document).on('mousedown', function(e) {
@@ -59,3 +60,9 @@ $(document).on('mousemove', 'div.events-list', function(e) {
 		};
 	}
 });
+
+if (!IS_DEBUG) {
+	console.log = function() {
+		return false;
+	}
+};
