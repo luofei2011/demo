@@ -177,18 +177,20 @@ $(function() {
 					date = new Date(event_list[j].date);
 					dateStr = date.getMonth() + 1 + '-' + date.getDate();
 					if (dateStr === week[i]) {
-						console.log(dateStr, week[i]);
 						e = $('<div class="events-list"></div>');
 						e.css({
 							'position': 'absolute',
 							height: get_time_diff(event_list[j].start, event_list[j].end) * 0.7,
-							top: get_time_diff('8:00', event_list[j].start) * 0.7
+							top: getBlockTop('8:00', event_list[j].start)
 						})
-						html += '<h3>' + event_list[j].name + '</h3>';
+						html += '<div class="event-content">';
+						html += '<div class="event-time">时间：' + event_list[j].start;
+						html += ' - ' + event_list[j].end + '</div>';
+						html += '<h3 class="event-title">' + event_list[j].name + '</h3>';
 						html += '<div>' + event_list[j].description + '</div>';
-						html += '<div>地点:' + event_list[j].addr + '</div>';
+						html += '<div class="event-addr"><span class="addr-icon"></span>地点:' + event_list[j].addr + '</div>';
+						html += '</div>';
 						e.append(html);
-						console.log(i);
 						tdCell.eq(i - 1).find('div.wkday-events').append(e);
 
 						// 清空数据
@@ -200,7 +202,19 @@ $(function() {
 			// 私有函数，计算时间差
 			function get_time_diff(t1, t2) {
 				// 默认采用24小时制, t1格式8:00
+				if (t1.split(':')[0] * 1 < 8) {
+					t1 = '8:00';
+				}
+
 				return Math.abs(t1.split(':')[0] - t2.split(':')[0]) * 60 + Math.abs(t1.split(':')[1] - t2.split(':')[1]);
+			}
+
+			function getBlockTop(t1, t2) {
+				if (t2.split(':')[0] * 1 < t1.split(':')[0] * 1) {
+					return 0;
+				}
+
+				return get_time_diff(t1, t2) * 0.7;
 			}
 		},
 		bindEvent: function() {
