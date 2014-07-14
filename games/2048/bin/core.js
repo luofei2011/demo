@@ -63,55 +63,90 @@ function Box(option) {
 }
 
 Box.prototype = {
-	move: function(type) {
-		var p = this.container.position(),
-			check,
-			dt = p.top, dl = p.left, con;
+	getUp: function() {
+		var start = this.container.position(),
+			con, target = false;
 
-		if (type == 'up') {
-			dt = p.top - 110;
-			con = dt >= 0;
-		}
-		if (type == 'down') {
-			dt = p.top + 110;
-			con = dt <= 330;
-		}
-		if  (type == 'left') {
-			dl = p.left - 110;
-			con = dl >= 0;
-		}
-		if (type == 'right') {
-			dl = p.left + 110;
-			con = dl <= 330;
-		}
-
-		if (con) {
-			check = this.collisionDetect({left: dl, top: dt});
-			if (!check) {
-				this.container.css({
-					'top': dt,
-					'left': dl
-				});
-				game.position[cord[p.left][p.top]].isUsed = false;
-				game.boxList[cord[p.left][p.top]] = undefined;
-
-				game.position[cord[dl][dt]].isUsed = true;
-				game.boxList[cord[dl][dt]] = this;
+		con = start.top - 110;
+		while(con >= 0) {
+			if (game.position[cord[start.left][con]].isUsed) {
+				break;
 			} else {
-				if (this.value == check.box.value) {
-					// 如果能合并则删除当前box;并把下面的box的值加一倍
-					check.box.container.text(this.value * 2);
-					check.box.value *= 2;
-					check.box.container.css('background', getColorByValue(this.value * 2));
-
-					this.container.remove();
-					this.removeBox(this);
-
-					game.position[cord[p.left][p.top]].isUsed = false;
-					game.boxList[cord[p.left][p.top]] = undefined;
-				}
+				target = con;
 			}
+			con -= 110;
 		}
+		if (target !== false)
+			this.go(start, {left: start.left, top: target});
+	},
+
+	getDown: function() {
+		var start = this.container.position(),
+			con, target = false;
+
+		con = start.top + 110;
+		while(con <= 330) {
+			if (game.position[cord[start.left][con]].isUsed) {
+				break;
+			} else {
+				target = con;
+			}
+			con += 110;
+		}
+		if (target !== false)
+			this.go(start, {left: start.left, top: target});
+	},
+
+	getLeft: function() {
+		var start = this.container.position(),
+			con, target = false;
+
+		con = start.left - 110;
+		while(con >= 0) {
+			if (game.position[cord[con][start.top]].isUsed) {
+				break;
+			} else {
+				target = con;
+			}
+			con -= 110;
+		}
+		if (target !== false)
+			this.go(start, {left: target, top: start.top});
+	},
+
+	getRight: function() {
+		var start = this.container.position(),
+			con, target = false;
+
+		con = start.left + 110;
+		while(con <= 330) {
+			if (game.position[cord[con][start.top]].isUsed) {
+				break;
+			} else {
+				target = con;
+			}
+			con += 110;
+		}
+		if (target !== false)
+			this.go(start, {left: target, top: start.top});
+	},
+
+	go: function(old, target) {
+		console.log(target);
+		this.container.css({
+			'top': target.top,
+			'left': target.left
+		});
+		game.position[cord[old.left][old.top]].isUsed = false;
+		game.boxList[cord[old.left][old.top]] = undefined;
+
+		game.position[cord[target.left][target.top]].isUsed = true;
+		game.boxList[cord[target.left][target.top]] = this;
+	},
+
+	move: function(type) {
+		var map = {up: 'getUp', down: 'getDown', left: 'getLeft', right: 'getRight'};
+		this[map[type]]();
 	},
 
 	append: function(h) {
@@ -135,25 +170,13 @@ Box.prototype = {
 		}
 
 		return false;
-	},
-
-	removeBox: function(box) {
-		// game.boxList.splice(index, 1);
-		var i = 0, len = game.boxList.length;
-
-		for (; i < len; i++) {
-			if (game.boxList[i] === box) {
-				// game.boxList.splice(i, 1);
-				game.boxList[i] = undefined;
-				break;
-			}
-		}
 	}
 }
 
 var game = {
 	position: [],	// 记录表格的位置属性
-	boxList: [], 	// 记录当前已经生成了的盒子的数组列表
+	boxList: new Array(16), 	// 记录当前已经生成了的盒子的数组列表
+	isOver: {},	// 判断是否结束游戏
 	random: function() {
 		var rand = Math.floor(Math.random() * 16),
 			find = rand;
@@ -227,6 +250,100 @@ var game = {
 		// 第二次
 		r = this.random();
 		this.boxList[cord[r.position.left][r.position.top]] = new Box(r);
+	},
+
+	/**
+	 * 把每次操作分解为两个基本操作：合并 + 移动；以下两个函数是合并的关键函数
+	 * @param {Array} [arr] [待合并的数组]
+	 * @param {int} [start] [起始位置]
+	 * @param {int} [step] [步长]
+	 * @param {Array} [arr] [合并后的数组]
+	 */
+
+	// 合并一列或者一行中按照一定顺序出现的相同的项目
+	// 当方向键是：top，left时选择的策略
+	mergeEqualItemASC: function(arr, start, step, type) {
+		var tmp, i = 0, label = step, st = start,
+			p;	// 被合并节点的位置属性
+
+		for (; i < 3; i++) {
+			if (arr[start]) {
+				// 删除原来节点，并且把合并后的节点值加倍
+				tmp = arr[start + label];
+				if (!tmp) {
+					label += label;
+					continue;
+				}
+
+				if (arr[start].value == tmp.value) {
+					p = tmp.container.position();
+					game.position[cord[p.left][p.top]].isUsed = false;
+					tmp.container.remove();
+					arr[start].value = tmp.value * 2;
+					arr[start].container.text(arr[start].value);
+					arr[start].container.css('background', getColorByValue(tmp.value * 2));
+
+
+					arr[start + label] = undefined;
+					start += label;
+					label = step;
+					i ++;
+				} else {
+					start += label;
+					label = step;
+					continue;
+				}
+			}
+			start += step;
+		}
+
+		// 第二次循环，用于移动
+		for (i = 0; i < 4; i++) {
+			if (game.boxList[st])
+				game.boxList[st].move(type);
+			st += step;
+		}
+	},
+
+	// 当方向键是：right，down时选择的策略
+	mergeEqualItemDSC: function(arr, start, step, type) {
+		var i = 0, tmp, p, label = step, st = start;
+
+		for (; i < 3; i++) {
+			if (arr[start]) {
+				tmp = arr[start - label];
+				if (!tmp) {
+					label += label;
+					continue;
+				}
+				if (arr[start].value == tmp.value) {
+					p = tmp.container.position();
+					game.position[cord[p.left][p.top]].isUsed = false;
+					tmp.container.remove();
+
+					arr[start].value = tmp.value * 2;
+					arr[start].container.text(arr[start].value);
+					arr[start].container.css('background', getColorByValue(tmp.value * 2));
+
+					arr[start - label] = undefined;
+					start -= label;
+					label = step;
+					i ++;
+				} else {
+					start -= label;
+					label = step;
+					continue;
+				}
+			}
+			start -= label;
+		}
+
+		for (i = 0; i < 4; i++) {
+			if (game.boxList[st])
+				game.boxList[st].move(type);
+
+			st -= step;
+		}
 	}
 }
 
@@ -236,7 +353,7 @@ $(document).on('keydown', function(e) {
 	// console.log(e.keyCode);
 	var i = 0, len = game.boxList.length,
 		canMove = false,
-		randBox;
+		randBox, box;
 
 	switch(e.keyCode) {
 		case 38: // up
@@ -251,38 +368,36 @@ $(document).on('keydown', function(e) {
 	}
 
 	if (canMove) {
-		if (e.keyCode == 39 || e.keyCode == 40) {
-			// game.boxList.reverse();
-		}
-		for (; i < len; i++) {
-			if (game.boxList[i]) {
-				// game.boxList[i][keyMap[e.keyCode]]();
-				if (e.keyCode == 38) {
-					game.boxList[i].move('up');
-				}
-				if (e.keyCode == 40) {
-					game.boxList[i].move('down');
-				}
-				if (e.keyCode == 37) {
-					game.boxList[i].move('left');
-				}
-				if (e.keyCode == 39) {
-					game.boxList[i].move('right');
-				}
-
-				// len = game.boxList.length;
+		if (e.keyCode == 38) {
+			for (i = 0; i < 4; i++) {
+				game.mergeEqualItemASC(game.boxList, i, 4, 'up');
 			}
 		}
-
-		if (e.keyCode == 39 || e.keyCode == 40) {
-			// game.boxList.reverse();
+		if (e.keyCode == 40) {
+			for (i = 12; i < 16; i++) {
+				game.mergeEqualItemDSC(game.boxList, i, 4, 'down');
+			}
+		}
+		if (e.keyCode == 37) {
+			for (i = 0; i < 13; i += 4) {
+				game.mergeEqualItemASC(game.boxList, i, 1, 'left');
+			}
+		}
+		if (e.keyCode == 39) {
+			for (i = 3; i < 16; i += 4) {
+				game.mergeEqualItemDSC(game.boxList, i, 1, 'right');
+			}
 		}
 
 		randBox = game.random();
 		if (randBox) {
-			game.boxList[cord[randBox.position.left][randBox.position.top]] = new Box(randBox);
+			box = new Box(randBox);
+			game.boxList[cord[randBox.position.left][randBox.position.top]] = box;
+			box.container.hide().fadeIn(200);
 		} else {
-			alert('Game Over!');
+			game.isOver[e.keyCode] = 1;
+			if (game.isOver[37] == 1 && game.isOver[38] == 1 && game.isOver[39] == 1 && game.isOver[40] == 1)
+				alert('Game Over!');
 		}
 	}
 })
