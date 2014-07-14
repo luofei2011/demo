@@ -48,6 +48,18 @@ div.cell, .box {
 	text-align: center;
 	font-size: 22px;
 }
+#score {
+	background: #000;
+	width: 100px;
+	height: 100px;
+	position: fixed;
+	right: 10px;
+	top: 10px;
+	color: #fff;
+	font-weight: bold;
+	font-size: 30px;
+	text-align: center;
+}
 </style>
 <body>
 	<div id="wrapper">
@@ -72,6 +84,7 @@ div.cell, .box {
 			</div>
 			<div class="container"></div>
 		</div>
+		<div id="score">得分:<div id="score-num">0</div></div>
 	</div>
 </body>
 <script type="text/javascript" src="bin/jquery-1.10.2.min.js"></script>

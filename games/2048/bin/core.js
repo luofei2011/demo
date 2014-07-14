@@ -131,8 +131,8 @@ Box.prototype = {
 			this.go(start, {left: target, top: start.top});
 	},
 
+	// 具体的移动
 	go: function(old, target) {
-		console.log(target);
 		this.container.css({
 			'top': target.top,
 			'left': target.left
@@ -142,6 +142,8 @@ Box.prototype = {
 
 		game.position[cord[target.left][target.top]].isUsed = true;
 		game.boxList[cord[target.left][target.top]] = this;
+
+		game.isMerged = true;
 	},
 
 	move: function(type) {
@@ -177,6 +179,8 @@ var game = {
 	position: [],	// 记录表格的位置属性
 	boxList: new Array(16), 	// 记录当前已经生成了的盒子的数组列表
 	isOver: {},	// 判断是否结束游戏
+	score: 0,
+	isMerged: false,	// 根据判断是否发生合并事件，用于判断是否允许继续向某个方向移动
 	random: function() {
 		var rand = Math.floor(Math.random() * 16),
 			find = rand;
@@ -252,6 +256,10 @@ var game = {
 		this.boxList[cord[r.position.left][r.position.top]] = new Box(r);
 	},
 
+	updateScore: function(v) {
+		$('#score-num').text(v);
+	},
+
 	/**
 	 * 把每次操作分解为两个基本操作：合并 + 移动；以下两个函数是合并的关键函数
 	 * @param {Array} [arr] [待合并的数组]
@@ -288,6 +296,12 @@ var game = {
 					start += label;
 					label = step;
 					i ++;
+
+					// 添加计分系统
+					game.score += tmp.value * 2;
+					this.updateScore(this.score);
+
+					this.isMerged = true;
 				} else {
 					start += label;
 					label = step;
@@ -329,6 +343,13 @@ var game = {
 					start -= label;
 					label = step;
 					i ++;
+
+					// 添加计分系统
+					game.score += tmp.value * 2;
+					this.updateScore(this.score);
+
+					// 修改标志
+					this.isMerged = true;
 				} else {
 					start -= label;
 					label = step;
@@ -350,11 +371,12 @@ var game = {
 game.init();
 
 $(document).on('keydown', function(e) {
-	// console.log(e.keyCode);
 	var i = 0, len = game.boxList.length,
 		canMove = false,
 		randBox, box;
 
+	game.isMerged = false;
+	// HACK  当四角已经堆满box的时候不应该生成新的盒子
 	switch(e.keyCode) {
 		case 38: // up
 		case 40: // down
@@ -389,15 +411,18 @@ $(document).on('keydown', function(e) {
 			}
 		}
 
-		randBox = game.random();
-		if (randBox) {
-			box = new Box(randBox);
-			game.boxList[cord[randBox.position.left][randBox.position.top]] = box;
-			box.container.hide().fadeIn(200);
-		} else {
-			game.isOver[e.keyCode] = 1;
-			if (game.isOver[37] == 1 && game.isOver[38] == 1 && game.isOver[39] == 1 && game.isOver[40] == 1)
-				alert('Game Over!');
+		if (game.isMerged) {
+
+			randBox = game.random();
+			if (randBox) {
+				box = new Box(randBox);
+				game.boxList[cord[randBox.position.left][randBox.position.top]] = box;
+				box.container.hide().fadeIn(200);
+			} else {
+				game.isOver[e.keyCode] = 1;
+				if (game.isOver[37] == 1 && game.isOver[38] == 1 && game.isOver[39] == 1 && game.isOver[40] == 1)
+					alert('Game Over!');
+			}
 		}
 	}
 })
