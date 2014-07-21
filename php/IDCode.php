@@ -3,6 +3,7 @@
  * @Class
  * @description {对一串数字进行加密和解密}
  * @author luofei
+ * @email {luofeihit2010@gmail.com}
  */
 /*
  * 算法描述：
