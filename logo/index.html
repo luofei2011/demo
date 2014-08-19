@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>谷歌动画原理</title>
+    <script src="http://s1.bdstatic.com/r/www/cache/static/jquery/jquery-1.10.2.min_f2fb5194.js"></script>
+    <script src="./google.js"></script>
+</head>
+<body>
+<style>
+.logo-1 {
+    background: url(./img/bg.png) no-repeat;
+    height: 156px;
+    width: 135px;
+    left: 0;
+    top: 35px;
+}
+.logo-1-hover {
+    background-position-x: -135px;
+}
+.logo-1-click {
+    background: url(./img/g.jpg) no-repeat;
+}
+/*********logo-2*******/
+.logo-2 {
+    background: url(./img/go.jpg) no-repeat -270px 0;;
+    height: 102px;
+    width: 65px;
+    left: 135px;
+    top: 75px;
+}
+.logo-2-hover {
+    background-position-x: -335px;
+}
+.logo-3 {
+    background: url(./img/goo.png) no-repeat -400px 0;
+    width: 67px;
+    height: 144px;
+    left: 200px;
+    top: 49px;
+}
+.logo-3-hover {
+    background-position-x: -467px;
+}
+.logo-4 {
+    background: url(./img/goog.jpg) no-repeat -682px 0;
+    width: 98px;
+    height: 156px;
+    left: 267px;
+    top: 29px;
+}
+.logo-4-hover {
+    background-position-x: -780px;
+}
+.logo-5 {
+    background: url(./img/google.png) no-repeat -534px 0;
+    width: 75px;
+    height: 108px;
+    left: 365px;
+    top: 85px;
+}
+.logo-5-hover {
+    background-position-x: -609px;
+}
+#wrapper {
+    position: relative;
+    height: 230px;
+    width: 450px;
+    overflow: hidden;
+    text-align: center;
+    left: 50%;
+    margin-left: -225px;
+}
+#wrapper div {
+    position: absolute;
+    cursor: pointer;
+}
+</style>
+<div id="wrapper">
+    <div class="logo-1"></div>
+    <div class="logo-2"></div>
+    <div class="logo-3"></div>
+    <div class="logo-4"></div>
+    <div class="logo-5"></div>
+</div>
+</body>
+</html>
