@@ -93,7 +93,6 @@ class Spider {
 
     protected function get_content($url) {
         $content = file_get_contents($url);
-        var_dump($content);
         if (strpos($http_response_header[0], '200')) {
             return $content;
         }
