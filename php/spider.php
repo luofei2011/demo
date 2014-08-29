@@ -1,18 +1,21 @@
 <?php
 class Spider {
     protected $dir = './tmp/';
+    protected $url;
     protected $urls = array();
-    static $max_deep_times = 3;
+    static $max_deep_times = 1;
     static $exclude_type = array('js', 'css');
     public $level;
 
     public function __construct($url, $level = 1) {
+        $this->url = $url;
         $this->level = $level;
         $this->init($url);
     }
 
     protected function init($url) {
         $type = $this->get_url_type($url);
+        $type = $type ? $type : '';
         $content = $this->get_content($url);
 
         if ($content) {
@@ -26,7 +29,7 @@ class Spider {
                 var_dump($this->urls);
                 $this->filter_url();
                 var_dump($this->urls);
-                if ($this->level <= self::$max_deep_times) {
+                if ($this->level < self::$max_deep_times) {
                     foreach($this->urls as $url) {
                         new Spider($url, $this->level + 1);
                     }
@@ -60,6 +63,8 @@ class Spider {
             } else {
                 //preg_match_all("/^http(?:s)?:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*(?:[^<>\"\"])*$/", $url, $matchs);
                 //if ($matchs[0][0])
+                // 根据当前url，筛选相关度大于0.5的链接
+                if (UrlSimilary::get_destence($this->url, $url) >= 0.5)
                     array_push($urls, $url);
             }
         }
@@ -70,6 +75,10 @@ class Spider {
         // 收集超链接中的链接
         $urls = array();
         preg_match_all("/href=\"([^\"]+)\"/", $content, $matchs);
+        $urls = array_merge($urls, $matchs[1]);
+
+        // FIX 超链接
+        preg_match_all("/href='([^']+)'/", $content, $matchs);
         $urls = array_merge($urls, $matchs[1]);
 
         // 收集img标签
@@ -83,7 +92,12 @@ class Spider {
     }
 
     protected function get_content($url) {
-        return file_get_contents($url);
+        $content = file_get_contents($url);
+        var_dump($content);
+        if (strpos($http_response_header[0], '200')) {
+            return $content;
+        }
+        return false;
     }
 
     protected function save_content($name, $content) {
@@ -99,7 +113,8 @@ class Spider {
             $pathSplit = array_filter(explode('/', $pathArr['path']));
             $type = array_pop($pathSplit);
             if ($type) {
-                preg_match_all("/\w+(?:\.(png|gif|jpeg|bmp|jpg|html|xhtml|php|jsp))$/i", $type, $matchs);
+                //preg_match_all("/\w+(?:\.(png|gif|jpeg|bmp|jpg|html|xhtml|php|jsp))$/i", $type, $matchs);
+                preg_match_all("/\w+(?:\.(\w+))$/i", $type, $matchs);
                 $matchs = array_filter($matchs);
 
                 return $matchs[1][0];
@@ -109,5 +124,9 @@ class Spider {
     }
 }
 
-$url = 'http://www.baidu.com';
+// NICE
+chdir(dirname(__FILE__));
+include "./urlSimilary.php";
+
+$url = "http://www.baidu.com";
 $curl = new Spider($url);
