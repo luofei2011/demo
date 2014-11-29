@@ -64,6 +64,8 @@ Git & Svn工具介绍及高级介绍
 - git merge dev（fast-forward？）
 - --no-ff
 
+=====
+
 ## 干坏事儿了，警察要保护现场！
 
 - git stash（when？how？）
