@@ -1,5 +1,5 @@
 window.onload = function() {
-	ppt.init("data.md");
+	ppt.init("the_usage_of_git_and_svn.md");
 }
 
 /* ------------
