@@ -27,8 +27,8 @@ body {
     <input type="text" id="sug" name="sug" autocomplete="false">
 </div>
 <script src="http://cdn.staticfile.org/jquery/1.10.0/jquery.min.js"></script>
-<script type="text/javascript" src="https://raw.githubusercontent.com/luofei2011/sug/master/sug.js"></script>
-<script type="text/javascript" src="https://raw.githubusercontent.com/luofei2011/sug/master/data.js"></script>
+<script type="text/javascript" src="./sug.js"></script>
+<script type="text/javascript" src="./data.js"></script>
 <script>
 window.onload = function() {
     var sug = new bds.util.sug({targetDom: $('#sug'), onQChange: function() {console.log('query change!!!')}});
