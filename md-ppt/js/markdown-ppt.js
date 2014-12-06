@@ -1,5 +1,5 @@
 window.onload = function() {
-	ppt.init("the_usage_of_git_and_svn.md");
+	ppt.init("coding_style.md");
 }
 
 /* ------------
