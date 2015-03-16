@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>五子棋 | 在线试玩（人机）</title>
+</head>
+<body>
+<style>
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+body {
+    background: #f5f5f5;
+}
+body,div {margin: 0;padding: 0}
+#wrapper {
+    width: 420px;
+    height: 420px;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+#main {
+    padding: 30px;
+    cursor: url(./icon/white.png), auto;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 0);
+}
+#wrapper:after {
+    display: block;
+    clear: both;
+}
+#wrapper .grid {
+    float: left;
+    width: 29px;
+    height: 29px;
+    border-left: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+}
+.item {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    background: url(./icon/black.png) no-repeat;
+}
+.item.white {
+    background: url(./icon/white.png) no-repeat;
+}
+</style>
+<div id="main">
+    <div id="wrapper"></div>
+    <div id="container"></div>
+</div>
+<script src="./js/main.js"></script>
+<script src="./js/event.js"></script>
+<script src="./js/init.js"></script>
+<script src="./js/calc.js"></script>
+<script>
+Gobang.init();
+
+var player = new Player();
+player.go();
+</script>
+</body>
+</html>
