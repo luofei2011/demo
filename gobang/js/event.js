@@ -47,6 +47,7 @@ Gobang.event = function() {
             if (list.indexOf(10) !== -1) {
                 alert('白旗获胜！');
                 window.location.reload();
+                return false;
             }
 
             Gobang.addPiece(selected);
