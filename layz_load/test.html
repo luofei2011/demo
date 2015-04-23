@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>一次性并发加载测试</title>
+</head>
+<body>
+<script src="./data.js"></script>
+<script>
+(function () {
+    console.time('loadImage');
+    var tmp_arr = [];
+    for (var i = 0, len = images.length; i < len; i++) {
+        tmp_arr.push({
+            src: images[i],
+            loaded: false
+        });
+    }
+    for (i = 0, len = images.length; i < len; i++) {
+        loadImage(tmp_arr[i]);
+    }
+
+    function loadImage(node) {
+        var img = new Image();
+
+        img.onload = function() {
+            node.loaded = true;
+
+            if (isAllLoaded()) {
+                console.timeEnd('loadImage');
+            }
+        }
+        img.onerror = function () {
+            node.loaded = true;
+        }
+
+        img.src = node.src;
+    }
+
+    function isAllLoaded() {
+        for (var i = 0, len = tmp_arr.length; i < len; i++) {
+            if (!tmp_arr[i].loaded) return false;
+        }
+
+        return true;
+    }
+})();
+</script>
+</body>
+</html>
