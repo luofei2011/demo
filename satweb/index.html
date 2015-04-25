@@ -8,13 +8,13 @@
 <div>hello world!</div>
 <script src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script>
 <script>
+window.onload = function () {
+    console.log('window.onload');
+}
 $(document).ready(function () {
     console.log('document.ready');
 });
 
-window.onload = function () {
-    console.log('window.onload');
-}
 </script>
 </body>
 </html>
