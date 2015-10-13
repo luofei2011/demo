@@ -1,8 +1,10 @@
-var http = require('http');
 var cp = require('child_process');
+var http = require('http');
 var Q = require('q');
 
+// 并行处理时的最大进程数量
 var MAX_THREAD = 3;
+// 当前的并行处理量
 var now_thread = 0;
 
 http.createServer(function (req, res) {

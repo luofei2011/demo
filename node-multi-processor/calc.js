@@ -2,6 +2,7 @@ var http = require('http');
 var Q = require('q');
 
 var defer = Q.defer();
+// 该php中sleep了10s，模拟密集型CPU计算
 http.get('http://webfe.cf/sleep.php', function (res) {
 	console.log('success');
 	defer.resolve();
